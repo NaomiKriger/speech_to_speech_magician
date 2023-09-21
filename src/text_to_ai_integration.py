@@ -1,7 +1,6 @@
-import json
 import os
+
 import openai
-import requests
 
 
 def get_open_model_list():
@@ -11,23 +10,19 @@ def get_open_model_list():
 
 
 def make_openai_request():
-    api_key = os.environ.get("OPENAI_API_KEY")
-    url = 'https://api.openai.com/v1/engines/davinci/completions'
-    prompt = "say a short sentence, something random"
-    params = {
-        "prompt": prompt,
-        "max_tokens": 50,
-        "temperature": 0.7
-    }
+    openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}",
-    }
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You provide funny answers"},
+            {"role": "user", "content": "What does Harry Potter like in Hogwarts?"}
+        ],
+        max_tokens=20
+    )
 
-    response = requests.post(url, headers=headers, json=params)
+    return completion.choices[0].message["content"]
 
-    data = json.loads(response.text)
-    print(data)
 
-    # print(data["choices"][0]["text"])
+if __name__ == "__main__":
+    make_openai_request()
