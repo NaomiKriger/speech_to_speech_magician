@@ -17,8 +17,9 @@ def receive_recording():
             now = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
             wav_path = os.path.join(WAVS_TEMP_DIR, f'{now}.wav')
             request.files["audio"].save(wav_path)
+            character = request.form['character'] # TODO - use it
             with open(wav_path, "rb") as wav_f:
-                transcript = openai.Audio.transcribe("whisper-1", wav_f)
+                transcript = openai.Audio.transgcribe("whisper-1", wav_f)
                 # DO STUFF
             os.remove(wav_path)
             return jsonify({"message": transcript['text']})
