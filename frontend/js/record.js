@@ -2,9 +2,10 @@
 import {recordingText, recordingColor, notRecordingText, notRecordingColor, drawRecordingCircle} from "./drawCircle.js";
 
 // initialize stuff
-let mediaRecorder;
-let isRecording = false;
 const audioPlayer = document.getElementById("audioPlayer"); // TODO - remove this
+let mediaRecorder;
+export let audioBlob = null;
+export let isRecording = false;
 
 // initialize the recording canvas
 const canvas = document.getElementById("RecordCanvas");
@@ -12,7 +13,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 drawRecordingCircle(canvas, notRecordingColor, notRecordingText)
 
-function startRecording() {
+export function startRecording() {
+    audioBlob = null;
     // modify canvas
     drawRecordingCircle(canvas, recordingColor, recordingText)
     // record
@@ -28,9 +30,9 @@ function startRecording() {
             };
 
             mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, {type: "audio/wav"});
-                const audioUrl = URL.createObjectURL(audioBlob);
-                audioPlayer.src = audioUrl;
+                audioBlob = new Blob(audioChunks, {type: "audio/wav"});
+                const audioUrl = URL.createObjectURL(audioBlob); // TODO - delete this
+                audioPlayer.src = audioUrl; // TODO - delete this
             };
 
             mediaRecorder.start();
@@ -41,7 +43,7 @@ function startRecording() {
         });
 }
 
-function stopRecording() {
+export function stopRecording() {
     // modify canvas
     drawRecordingCircle(canvas, notRecordingColor, notRecordingText)
     // stop recording
@@ -51,22 +53,3 @@ function stopRecording() {
     }
 }
 
-document.addEventListener("keydown", function (event) {
-    // start recording when spacebar is pressed
-    if (event.key == " " || event.code == "Space") {
-        if (!isRecording) {
-            startRecording();
-            console.log("START RECORDING");
-        }
-    }
-});
-
-document.addEventListener("keyup", function (event) {
-    // stop recording when spacebar is released
-    if (event.key == " " || event.code == "Space") {
-        if (isRecording) {
-            stopRecording();
-            console.log("STOP RECORDING");
-        }
-    }
-});
