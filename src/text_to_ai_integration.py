@@ -22,7 +22,3 @@ def make_openai_request():
     )
 
     return completion.choices[0].message["content"]
-
-
-if __name__ == "__main__":
-    make_openai_request()
