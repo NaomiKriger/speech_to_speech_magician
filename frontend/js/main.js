@@ -1,6 +1,9 @@
 import {startRecording, stopRecording, isRecording, audioBlob} from "./record.js";
-import {sendAudioToBackend} from "./sendAudioToBackend.js";
+import {sendDataToBackend} from "./sendDataToBackend.js";
+import {populateDropdown} from "./dropdown.js";
 
+const dropdown = document.getElementById("characterDropdown");
+populateDropdown(dropdown);
 
 // start recording when spacebar is pressed
 document.addEventListener("keydown", function (event) {
@@ -22,10 +25,13 @@ document.addEventListener("keyup", function (event) {
     }
 });
 
-// send the .wav file to the backend when the button is pressed
+// send the .wav file + character to the backend when the button is pressed
 document.addEventListener("DOMContentLoaded", function () {
-    const uploadButton = document.getElementById("sendAudioToBackend");
+    const uploadButton = document.getElementById("sendDataToBackend");
     uploadButton.addEventListener("click", function () {
-        sendAudioToBackend(audioBlob);
+        let character = dropdown.value
+        console.log("CHOSEN CHARACTER: " + character);
+        sendDataToBackend(audioBlob, character);
     });
 });
+
