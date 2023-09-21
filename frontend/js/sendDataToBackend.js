@@ -1,8 +1,9 @@
 const receiveRecordingBackendURL = "http://localhost:3000/receive_recording"
 
-export function sendAudioToBackend(audioBlob) {
+export function sendDataToBackend(audioBlob, character) {
     const formData = new FormData();
     formData.append("audio", audioBlob);
+    formData.append("character", character);
     console.log("SENDING AUDIO TO SERVER");
     fetch(receiveRecordingBackendURL, {
         method: "POST",
