@@ -3,12 +3,6 @@ import os
 import openai
 
 
-def get_open_model_list():
-    openai.api_key = os.environ.get("OPENAI_API_KEY")
-    open_ai_list = openai.Model.list()
-    print(open_ai_list)
-
-
 def make_openai_request(system_instruction: str, user_question: str):
     openai.api_key = os.environ.get("OPENAI_API_KEY")
 
