@@ -1,3 +1,5 @@
+.env
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
