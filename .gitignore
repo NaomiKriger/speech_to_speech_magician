@@ -1,4 +1,5 @@
 src/.env
+.env
 
 ### IntelliJ IDEA ###
 out/
