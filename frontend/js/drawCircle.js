@@ -3,9 +3,9 @@ export var notRecordingText = "Press Spacebar To Record";
 export var notRecordingColor = "green";
 export var recordingText = "Recording...";
 export var recordingColor = "red";
-var circleRadius = 200;
+const circleRadius = 200;
 
-// initialize the recording canvas
+// initialize the canvas containing the circle
 const canvas = document.getElementById("RecordCanvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -28,5 +28,4 @@ export function drawRecordingCircle(canvas, color, text) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(text, centerX, centerY);
-
 }

@@ -1,11 +1,9 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-# Create a Flask web app
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Define a route and a view function
 @app.route("/receive_recording", methods=["POST"])
 def receive_recording():
     try:
@@ -19,6 +17,5 @@ def receive_recording():
         return jsonify({"error": str(e)}), 500
 
 
-# Run the app
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)

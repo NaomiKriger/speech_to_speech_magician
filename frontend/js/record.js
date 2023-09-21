@@ -1,7 +1,6 @@
-// global vars
 import {recordingText, recordingColor, notRecordingText, notRecordingColor, drawRecordingCircle} from "./drawCircle.js";
 
-// initialize stuff
+// initialize global variables
 const audioPlayer = document.getElementById("audioPlayer"); // TODO - remove this
 let mediaRecorder;
 export let audioBlob = null;
