@@ -1,16 +1,27 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import openai
+import datetime
+import os
+
+WAVS_TEMP_DIR = "./"
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 @app.route("/receive_recording", methods=["POST"])
 def receive_recording():
     try:
         if "audio" in request.files:
-            audio_file = request.files["audio"]
-            print(audio_file) # You can process the audio file here (e.g., save it to disk, perform analysis, etc.)
-            return jsonify({"message": "WAV file received and processed successfully"})
+            now = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+            wav_path = os.path.join(WAVS_TEMP_DIR, f'{now}.wav')
+            request.files["audio"].save(wav_path)
+            with open(wav_path, "rb") as wav_f:
+                transcript = openai.Audio.transcribe("whisper-1", wav_f)
+                # DO STUFF
+            os.remove(wav_path)
+            return jsonify({"message": transcript['text']})
         else:
             return jsonify({"error": "No 'audio' file found in the request"}), 400
     except Exception as e:

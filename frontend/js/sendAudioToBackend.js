@@ -1,17 +1,18 @@
+const receiveRecordingBackendURL = "http://localhost:3000/receive_recording"
+
 export function sendAudioToBackend(audioBlob) {
     const formData = new FormData();
     formData.append("audio", audioBlob);
     console.log("SENDING AUDIO TO SERVER");
-    // Send the file to the backend
-    fetch("http://localhost:3000/receive_recording", {
+    fetch(receiveRecordingBackendURL, {
         method: "POST",
         body: formData,
     })
         .then(response => response.json())
         .then(data => {
-            console.log("Response from Flask:", data);
+            console.log("TRANSCRIPT:", data.message);
         })
         .catch(error => {
-            console.error("Error:", error);
+            console.error("ERROR:", error);
         });
 }
