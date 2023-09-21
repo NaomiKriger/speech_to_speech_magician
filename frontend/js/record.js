@@ -1,12 +1,17 @@
-const startRecordButton = document.getElementById("startRecord");
-const stopRecordButton = document.getElementById("stopRecord");
 const audioPlayer = document.getElementById("audioPlayer");
 
+// initialize the recording canvas
+const canvas = document.getElementById("RecordCanvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+modifyRecordCanvas(canvas, "green", "Press Spacebar To Record")
+
 let mediaRecorder;
-// let audioChunks = [];
 let isRecording = false;
 
 function startRecording() {
+    modifyRecordCanvas(canvas, "red", "Recording...")
+
     navigator.mediaDevices.getUserMedia({audio: true})
         .then(function (stream) {
             mediaRecorder = new MediaRecorder(stream);
@@ -26,8 +31,6 @@ function startRecording() {
 
             mediaRecorder.start();
             isRecording = true;
-            startRecordButton.disabled = true;
-            stopRecordButton.disabled = false;
         })
         .catch(function (error) {
             console.error("Error accessing microphone:", error);
@@ -35,11 +38,11 @@ function startRecording() {
 }
 
 function stopRecording() {
+    modifyRecordCanvas(canvas, "green", "Press Spacebar To Record")
+
     if (mediaRecorder && isRecording) {
         mediaRecorder.stop();
         isRecording = false;
-        startRecordButton.disabled = false;
-        stopRecordButton.disabled = true;
     }
 }
 
@@ -60,3 +63,27 @@ document.addEventListener("keyup", function (event) {
         }
     }
 });
+
+
+function modifyRecordCanvas(canvas, color, text) {
+
+    // Check if the canvas element is supported
+    const ctx = canvas.getContext("2d");
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 200;
+
+    // add color
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // add text
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, centerX, centerY);
+
+}

@@ -1,0 +1,11 @@
+/* Not Recording Button */
+.not-recording-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Recording Button */
+.recording-button {
+    background-color: #ff5733;
+    color: #fff;
+}
