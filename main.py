@@ -77,16 +77,24 @@ def finish():
 def main():
     parser = argparse.ArgumentParser(description="Question Answering Tool")
     start()
-    user_choice = choose_figure()
+    another_round = True
+    user_choice = ""
 
-    if user_choice == "exit":
-        print("Finishing. Was great having you here, hope to see you again soon!")
+    while True:
+        if user_choice in ["no", "exit"]:
+            break
+        user_choice = choose_figure()
 
-    elif user_choice == "new":
-        main()
+        if user_choice == "exit":
+            print("Finishing. Was great having you here, hope to see you again soon!")
+            break
+        elif user_choice == "no":
+            break
+        elif user_choice == "new":
+            continue
 
-    else:
-        another_round = True
+        if not another_round:
+            break
         while another_round:
             audio_stream = get_audio_input()
             transcription = get_transcription(audio_input=audio_stream)
@@ -94,10 +102,11 @@ def main():
             play_gpt_response(gpt_answer)
             user_choice = is_another_round()
             if user_choice == "new":
-                main()
+                break
             elif user_choice in ["exit", "no"]:
                 print("Finishing. Was great having you here, hope to see you again soon!")
                 another_round = False
+                break
 
 
 if __name__ == "__main__":
