@@ -1,3 +1,6 @@
+import os
+
+import openai
 import pygame
 import sounddevice as sd
 from scipy.io.wavfile import write
@@ -42,3 +45,14 @@ def get_audio_sample():
     audio_sample_path = record_audio(duration=duration, file_name="sample_for_training")
     print(audio_sample_path)
     return audio_sample_path
+
+
+def get_transcript(audio_path: str) -> str:
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    audio_file = open(audio_path, "rb")
+    try:
+        transcript = openai.Audio.transcribe("whisper-1", audio_file).get("text")
+        print(transcript)
+        return transcript
+    except Exception as e:
+        print(e)
