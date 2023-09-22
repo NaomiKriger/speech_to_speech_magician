@@ -1,6 +1,8 @@
 exit_option = "You can finish the game at any time. \n" \
               "Write 'new' to start a new game, write 'exit' to finish"
 
+audio_sample = None
+
 
 def start():
     print("\n\n"
@@ -50,15 +52,17 @@ def get_gpt_answer(transcription: str, figure: str) -> str:
     return "gpt_answer"
 
 
-def play_gpt_response(transcript: str):
+def play_audio_response(transcript: str):
     return "playing response"
 
 
 def play_round(user_choice: str):
     audio_stream = get_audio_input()
+    # TODO send audio input for model training
     transcription = get_transcription(audio_input=audio_stream)
     gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)
-    play_gpt_response(gpt_answer)
+    # TODO: print text response on screen
+    play_audio_response(gpt_answer)
 
 
 def is_another_round() -> str:
@@ -81,10 +85,19 @@ def finish():
     print("Finishing the current session.")
 
 
+def get_audio_sample():
+    return "this is an audio sample"
+
+
 def main():
     start()
     another_round = True
     user_choice = ""
+    global audio_sample
+
+    if audio_sample is None:
+        audio_sample = get_audio_sample()
+        print(audio_sample)
 
     while True:
         if not user_choice:
