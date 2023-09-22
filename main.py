@@ -54,6 +54,13 @@ def play_gpt_response(transcript: str):
     return "playing response"
 
 
+def play_round(user_choice: str):
+    audio_stream = get_audio_input()
+    transcription = get_transcription(audio_input=audio_stream)
+    gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)
+    play_gpt_response(gpt_answer)
+
+
 def is_another_round() -> str:
     choice = input("Do you want to play another round? \n"
                    f"Type 'yes' or 'no'. {exit_option}")
@@ -75,36 +82,29 @@ def finish():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Question Answering Tool")
     start()
     another_round = True
     user_choice = ""
 
     while True:
-        if user_choice in ["no", "exit"]:
-            break
-        user_choice = choose_figure()
+        if not user_choice:
+            user_choice = choose_figure()
 
-        if user_choice == "exit":
-            print("Finishing. Was great having you here, hope to see you again soon!")
-            break
-        elif user_choice == "no":
+        if user_choice in ["exit", "no"]:
+            print("\nFinishing. Was great having you here, hope to see you again soon!")
             break
         elif user_choice == "new":
             continue
 
         if not another_round:
             break
+
         while another_round:
-            audio_stream = get_audio_input()
-            transcription = get_transcription(audio_input=audio_stream)
-            gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)
-            play_gpt_response(gpt_answer)
+            play_round(user_choice=user_choice)
             user_choice = is_another_round()
             if user_choice == "new":
                 break
             elif user_choice in ["exit", "no"]:
-                print("Finishing. Was great having you here, hope to see you again soon!")
                 another_round = False
                 break
 
