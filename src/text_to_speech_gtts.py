@@ -4,7 +4,7 @@ from gtts import gTTS
 from io import BytesIO
 import pygame
 
-from src.text_to_ai_integration import make_openai_request
+from src.handle_transcript import make_openai_request
 
 
 # def get_open_ai_respond():
