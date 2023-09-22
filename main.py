@@ -1,2 +1,42 @@
+from src.main_flow_helpers import choose_figure, start, play_round, is_another_round, get_audio_sample
+
+audio_sample = None
+
+
+def main():
+    start()
+    another_round = True
+    user_choice = ""
+    global audio_sample
+
+    if audio_sample is None:
+        audio_sample = get_audio_sample()
+        print(audio_sample)
+
+    while True:
+        if not user_choice:
+            user_choice = choose_figure()
+
+        if user_choice in ["exit", "no"]:
+            print("\nFinishing. Was great having you here, hope to see you again soon!")
+            break
+        elif user_choice == "new":
+            user_choice = ""
+            continue
+
+        if not another_round:
+            break
+
+        while another_round:
+            play_round(user_choice=user_choice)
+            user_choice = is_another_round()
+            if user_choice == "new":
+                user_choice = ""
+                break
+            elif user_choice in ["exit", "no"]:
+                another_round = False
+                break
+
+
 if __name__ == "__main__":
-    print("hi")
+    main()

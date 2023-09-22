@@ -1,0 +1,87 @@
+exit_option = "You can finish the game at any time. \n" \
+              "Write 'new' to start a new game, write 'exit' to finish"
+
+
+def start():
+    print("\n\n"
+          "Hello! Welcome to the speech-to-speech wizard! Good to see you here =)\n"
+          f"{exit_option}")
+
+
+def get_audio_sample():
+    return "this is an audio sample"
+
+
+def choose_figure():
+    print("\n\nChoose a figure from the list:")
+
+    figure_options = ["Figure 1", "Figure 2", "Figure 3"]
+    for idx, option in enumerate(figure_options, start=1):
+        print(f"{idx}. {option}")
+
+    while True:
+        choice = input("\nEnter the number of your chosen figure: ")
+        try:
+            if choice.lower() == "exit":
+                return "exit"
+            elif choice.lower() == "new":
+                return "new"
+
+            choice = int(choice)
+            if 1 <= choice <= len(figure_options):
+                chosen_figure = figure_options[choice - 1]
+                print(f"You have chosen: {chosen_figure}")
+                return chosen_figure
+            else:
+                print("Invalid choice. Please select a valid figure.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+def get_audio_input():
+    print(f"\nClick the record button and ask a question...")
+    return "this is the user audio"
+    # Implement your logic for asking questions here
+
+
+def get_transcription(audio_input):
+    return "some transcription"
+
+
+def get_gpt_answer(transcription: str, figure: str) -> str:
+    # call get_gpt_response
+    # not calling it now due to cost per call
+    return "gpt_answer"
+
+
+def play_audio_response(transcript: str):
+    return "playing response"
+
+
+def play_round(user_choice: str):
+    audio_stream = get_audio_input()
+    # TODO send audio input for model training
+    transcription = get_transcription(audio_input=audio_stream)
+    gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)
+    # TODO: print text response on screen
+    play_audio_response(gpt_answer)
+
+
+def is_another_round() -> str:
+    choice = input("\nDo you want to play another round? \n"
+                   f"Type 'yes' or 'no'. {exit_option}")
+
+    while True:
+        try:
+            if choice.lower() in ["exit", "new", "yes", "no"]:
+                return choice.lower()
+            else:
+                print("No valid option was chosen. Please try again")
+                choice = input("Do you want to play another round? \n"
+                               "Type 'yes' or 'no'")
+        except Exception as e:
+            print(e)
+
+
+def finish():
+    print("Finishing the current session.")
