@@ -1,13 +1,11 @@
-import argparse
-
 exit_option = "You can finish the game at any time. \n" \
               "Write 'new' to start a new game, write 'exit' to finish"
 
 
 def start():
-    print("\n\n")
-    print("Hello! Welcome to the speech-to-speech wizard! Good to see you here =)")
-    print(exit_option)
+    print("\n\n"
+          "Hello! Welcome to the speech-to-speech wizard! Good to see you here =)"
+          f"{exit_option}")
 
 
 def choose_figure():
@@ -47,6 +45,8 @@ def get_transcription(audio_input):
 
 
 def get_gpt_answer(transcription: str, figure: str) -> str:
+    # call get_gpt_response
+    # not calling it now due to cost per call
     return "gpt_answer"
 
 
@@ -104,7 +104,7 @@ def main():
             play_round(user_choice=user_choice)
             user_choice = is_another_round()
             if user_choice == "new":
-                user_choice = ""  # Reset user choice to start a new game
+                user_choice = ""
                 break
             elif user_choice in ["exit", "no"]:
                 another_round = False
