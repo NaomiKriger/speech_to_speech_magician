@@ -1,4 +1,7 @@
 import os
+import time
+import sys
+from typing import Optional
 
 import openai
 import pygame
@@ -47,12 +50,33 @@ def get_audio_sample():
     return audio_sample_path
 
 
-def get_transcript(audio_path: str) -> str:
+def draw_geekcon():
+    word = "GEEKCON IS AWESOME"
+    for i in range(len(word) + 1):
+        sys.stdout.write("\r" + "." * i + word[i:])
+        sys.stdout.flush()
+        time.sleep(0.25)
+    print()
+
+
+def get_transcript(audio_path: str, timeout_seconds: Optional[int] = 60) -> str:
     openai.api_key = os.getenv("OPENAI_API_KEY")
     audio_file = open(audio_path, "rb")
-    try:
-        transcript = openai.Audio.transcribe("whisper-1", audio_file).get("text")
-        print(transcript)
-        return transcript
-    except Exception as e:
-        print(e)
+
+    start_time = time.time()  # Record the start time
+    transcript = None
+
+    while transcript is None and time.time() - start_time < timeout_seconds:
+        draw_geekcon()
+        try:
+            response = openai.Audio.transcribe("whisper-1", audio_file)
+            transcript = response.get("text")
+        except Exception as e:
+            print(e)
+            time.sleep(5)  # Wait for a while before retrying
+
+    if transcript is None:
+        print("Transcription not available within the specified timeout.")
+
+    print(transcript)
+    return transcript
