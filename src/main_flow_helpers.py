@@ -48,7 +48,6 @@ def get_gpt_answer(transcription: str, figure: str) -> str:
 
 
 def play_round(user_choice: str):
-    input("\nPress any key to start recording")
     user_question_path = record_audio(file_name="user_question")
     transcription = get_transcription(audio_file_path=user_question_path)
     gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)

@@ -1,9 +1,48 @@
+import asyncio
 import os
+import sys
+import time
+from threading import Thread
 
 import openai
 from openai import ChatCompletion
 
 from src.commons import get_system_instructions
+
+
+def draw_geekcon_thread():
+    word = "Loading response..."
+    for i in range(len(word) + 1):
+        sys.stdout.write("\r" + "." * i + word[i:])
+        sys.stdout.flush()
+        time.sleep(0.2)
+    print()
+
+
+async def get_transcript_async(audio_path: str) -> str:
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    audio_file = open(audio_path, "rb")
+    transcript = None
+
+    async def transcribe_audio():
+        nonlocal transcript
+        try:
+            response = openai.Audio.transcribe("whisper-1", audio_file)
+            transcript = response.get("text")
+        except Exception as e:
+            print(e)
+
+    draw_thread = Thread(target=draw_geekcon_thread)
+    draw_thread.start()
+
+    transcription_task = asyncio.create_task(transcribe_audio())
+    await transcription_task
+
+    if transcript is None:
+        print("Transcription not available within the specified timeout.")
+
+    print(f"\n{transcript}")
+    return transcript
 
 
 def get_gpt_response(transcript: str, chosen_figure: str) -> str:
