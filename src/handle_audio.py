@@ -1,7 +1,8 @@
+import asyncio
 import os
-import time
 import sys
-from typing import Optional
+import time
+from threading import Thread
 
 import openai
 import pygame
@@ -50,33 +51,36 @@ def get_audio_sample():
     return audio_sample_path
 
 
-def draw_geekcon():
-    word = "GEEKCON IS AWESOME"
+def draw_geekcon_thread():
+    word = "Loading your response..."
     for i in range(len(word) + 1):
         sys.stdout.write("\r" + "." * i + word[i:])
         sys.stdout.flush()
-        time.sleep(0.25)
+        time.sleep(0.2)
     print()
 
 
-def get_transcript(audio_path: str, timeout_seconds: Optional[int] = 60) -> str:
+async def get_transcript_async(audio_path: str) -> str:
     openai.api_key = os.getenv("OPENAI_API_KEY")
     audio_file = open(audio_path, "rb")
-
-    start_time = time.time()  # Record the start time
     transcript = None
 
-    while transcript is None and time.time() - start_time < timeout_seconds:
-        draw_geekcon()
+    async def transcribe_audio():
+        nonlocal transcript
         try:
             response = openai.Audio.transcribe("whisper-1", audio_file)
             transcript = response.get("text")
         except Exception as e:
             print(e)
-            time.sleep(5)  # Wait for a while before retrying
+
+    draw_thread = Thread(target=draw_geekcon_thread)
+    draw_thread.start()
+
+    transcription_task = asyncio.create_task(transcribe_audio())
+    await transcription_task
 
     if transcript is None:
         print("Transcription not available within the specified timeout.")
 
-    print(transcript)
+    print(f"\n{transcript}")
     return transcript
