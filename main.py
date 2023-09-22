@@ -1,4 +1,5 @@
-from src.main_flow_helpers import choose_figure, start, play_round, is_another_round, record_audio
+from src.handle_audio import get_audio_sample
+from src.main_flow_helpers import choose_figure, start, play_round, is_another_round
 
 audio_sample_path = None
 
@@ -10,14 +11,7 @@ def main():
     global audio_sample_path
 
     if audio_sample_path is None:
-        duration = 5
-        print("Let's record an audio sample of yours. Press any key to start your recording. "
-              f"\nYou will have {duration} seconds to record once you press a key")
-        input("\nPress any key to start recording")
-
-        # TODO: increase duration to 10 seconds
-        audio_sample_path = record_audio(duration=duration, file_name="sample_for_training")
-        print(audio_sample_path)
+        audio_sample_path = get_audio_sample()
 
     while True:
         if not user_choice:

@@ -1,6 +1,4 @@
-import pygame
-import sounddevice as sd
-from scipy.io.wavfile import write
+from src.handle_audio import play_audio_response, record_audio
 
 exit_option = "You can finish the game at any time. \n" \
               "Write 'new' to start a new game, write 'exit' to finish"
@@ -10,21 +8,6 @@ def start():
     print("\n\n"
           "Hello! Welcome to the speech-to-speech wizard! Good to see you here =)\n"
           f"{exit_option}")
-
-
-def record_audio(duration: int = 5, file_name: str = "recording"):
-    sampling_frequency = 44100
-    print("starting to record")
-    recording = sd.rec(int(duration * sampling_frequency), samplerate=sampling_frequency, channels=2)
-    sd.wait()
-
-    print("finished recording")
-    write(f"{file_name}.wav", sampling_frequency, recording)
-    return f"{file_name}.wav"
-
-
-def get_audio_sample():
-    return "this is an audio sample"
 
 
 def choose_figure():
@@ -62,24 +45,6 @@ def get_gpt_answer(transcription: str, figure: str) -> str:
     # call get_gpt_response
     # not calling it now due to cost per call
     return "this is an answer from chat gpt"
-
-
-def play_audio(file_name: str = "recording.wav"):
-    pygame.init()
-    pygame.mixer.init()
-    pygame.mixer.music.load(file_name)
-    pygame.mixer.music.play()
-
-    # Wait for the audio to finish playing
-    while pygame.mixer.music.get_busy():
-        pygame.time.delay(100)
-
-    pygame.quit()
-
-
-def play_audio_response(transcript: str):
-    play_audio("audio_response.wav")
-    return "playing response"
 
 
 def play_round(user_choice: str):
