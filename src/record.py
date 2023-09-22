@@ -9,6 +9,7 @@ def record_audio(duration: int = 5, file_name: str = "recording"):
     sd.wait()
 
     write(f"{file_name}.wav", sampling_frequency, recording)
+    return f"{file_name}.wav"
 
 
-record_audio()
+record_audio(file_name="audio_response")
