@@ -94,6 +94,7 @@ def main():
             print("\nFinishing. Was great having you here, hope to see you again soon!")
             break
         elif user_choice == "new":
+            user_choice = ""
             continue
 
         if not another_round:
@@ -103,6 +104,7 @@ def main():
             play_round(user_choice=user_choice)
             user_choice = is_another_round()
             if user_choice == "new":
+                user_choice = ""  # Reset user choice to start a new game
                 break
             elif user_choice in ["exit", "no"]:
                 another_round = False
