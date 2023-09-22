@@ -1,4 +1,5 @@
 from src.handle_audio import play_audio_response, record_audio
+from src.handle_transcript import text_to_speech
 
 exit_option = "You can finish the game at any time. \n" \
               "Write 'new' to start a new game, write 'exit' to finish"
@@ -8,10 +9,12 @@ def start():
     print("\n\n"
           "Hello! Welcome to the speech-to-speech wizard! Good to see you here =)\n"
           f"{exit_option}")
+    text_to_speech("Hello! Welcome to the speech-to-speech wizard! Good to see you here")
 
 
 def choose_figure():
     print("\n\nChoose a figure from the list:")
+    text_to_speech("Choose a figure from the list:")
 
     figure_options = ["Figure 1", "Figure 2", "Figure 3"]
     for idx, option in enumerate(figure_options, start=1):

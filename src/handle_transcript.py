@@ -2,9 +2,12 @@ import asyncio
 import os
 import sys
 import time
+from io import BytesIO
 from threading import Thread
 
 import openai
+import pygame
+from gtts import gTTS
 from openai import ChatCompletion
 
 from src.commons import get_system_instructions
@@ -67,3 +70,18 @@ def make_openai_request(system_instructions: str, user_question: str) -> ChatCom
     )
 
     return completion
+
+
+def text_to_speech(text: str):
+    speech = gTTS(text, lang='en', lang_check=False, slow=False)
+
+    speech_bytes = BytesIO()
+    speech.write_to_fp(speech_bytes)
+    speech_bytes.seek(0)
+
+    pygame.mixer.init()
+    pygame.mixer.music.load(speech_bytes)
+    pygame.mixer.music.play()
+
+    while pygame.mixer.music.get_busy():
+        continue

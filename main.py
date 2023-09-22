@@ -1,4 +1,5 @@
 from src.handle_audio import get_audio_sample
+from src.handle_transcript import text_to_speech
 from src.main_flow_helpers import choose_figure, start, play_round, is_another_round
 
 audio_sample_path = None
@@ -19,6 +20,7 @@ def main():
 
         if user_choice in ["exit", "no"]:
             print("\nFinishing. Was great having you here, hope to see you again soon!")
+            text_to_speech("Finishing. Was great having you here, hope to see you again soon!")
             break
         elif user_choice == "new":
             user_choice = ""

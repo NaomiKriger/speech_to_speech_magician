@@ -1,6 +1,3 @@
-import gtts
-
-from gtts import gTTS
 from io import BytesIO
 import pygame
 
