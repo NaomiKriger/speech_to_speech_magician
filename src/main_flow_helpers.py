@@ -1,3 +1,7 @@
+import pygame
+import sounddevice as sd
+from scipy.io.wavfile import write
+
 exit_option = "You can finish the game at any time. \n" \
               "Write 'new' to start a new game, write 'exit' to finish"
 
@@ -6,6 +10,17 @@ def start():
     print("\n\n"
           "Hello! Welcome to the speech-to-speech wizard! Good to see you here =)\n"
           f"{exit_option}")
+
+
+def record_audio(duration: int = 5, file_name: str = "recording"):
+    sampling_frequency = 44100
+    print("starting to record")
+    recording = sd.rec(int(duration * sampling_frequency), samplerate=sampling_frequency, channels=2)
+    sd.wait()
+
+    print("finished recording")
+    write(f"{file_name}.wav", sampling_frequency, recording)
+    return f"{file_name}.wav"
 
 
 def get_audio_sample():
@@ -38,32 +53,41 @@ def choose_figure():
             print("Invalid input. Please enter a number.")
 
 
-def get_audio_input():
-    print(f"\nClick the record button and ask a question...")
-    return "this is the user audio"
-    # Implement your logic for asking questions here
-
-
-def get_transcription(audio_input):
-    return "some transcription"
+def get_transcription(audio_file_path: str) -> str:
+    print(f"path for transcription is: {audio_file_path}")
+    return "this is a sample transcription"
 
 
 def get_gpt_answer(transcription: str, figure: str) -> str:
     # call get_gpt_response
     # not calling it now due to cost per call
-    return "gpt_answer"
+    return "this is an answer from chat gpt"
+
+
+def play_audio(file_name: str = "recording.wav"):
+    pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.load(file_name)
+    pygame.mixer.music.play()
+
+    # Wait for the audio to finish playing
+    while pygame.mixer.music.get_busy():
+        pygame.time.delay(100)
+
+    pygame.quit()
 
 
 def play_audio_response(transcript: str):
+    play_audio("audio_response.wav")
     return "playing response"
 
 
 def play_round(user_choice: str):
-    audio_stream = get_audio_input()
-    # TODO send audio input for model training
-    transcription = get_transcription(audio_input=audio_stream)
+    input("\nPress any key to start recording")
+    user_question_path = record_audio(file_name="user_question")
+    transcription = get_transcription(audio_file_path=user_question_path)
     gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)
-    # TODO: print text response on screen
+    print(gpt_answer)
     play_audio_response(gpt_answer)
 
 
