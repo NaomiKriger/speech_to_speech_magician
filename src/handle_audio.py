@@ -4,6 +4,8 @@ import sys
 import time
 from threading import Thread
 
+import keyboard
+import numpy as np
 import openai
 import pygame
 import sounddevice as sd
@@ -28,31 +30,49 @@ def play_audio_response(transcript: str):
     return "playing response"
 
 
-def record_audio(duration: int = 5, file_name: str = "recording"):
+def record_audio(file_name: str = "recording"):
     sampling_frequency = 44100
-    print("starting to record")
-    recording = sd.rec(int(duration * sampling_frequency), samplerate=sampling_frequency, channels=2)
-    sd.wait()
+    recording_started = False
 
-    print("finished recording")
-    write(f"{file_name}.wav", sampling_frequency, recording)
+    print("Press and hold any key to start recording...")
+    keyboard.read_event()
+    audio_data = []
+
+    with sd.InputStream(samplerate=sampling_frequency, channels=2) as stream:
+        while True:
+            event = keyboard.read_event(suppress=True)
+            if event and event.event_type == keyboard.KEY_DOWN:
+                if not recording_started:
+                    recording_started = True
+                    print("Recording started.")
+
+                audio_chunk, overflowed = stream.read(1024)
+                audio_data.append(audio_chunk)
+
+            elif event and event.event_type == keyboard.KEY_UP and recording_started:
+                print("Recording stopped.")
+                break
+
+    if audio_data:
+        audio_data = np.concatenate(audio_data, axis=0)
+        sd.wait()
+        print(f"Recording saved as {file_name}.wav.")
+        write(f"{file_name}.wav", sampling_frequency, audio_data)
+    else:
+        print("No audio recorded.")
+
     return f"{file_name}.wav"
 
 
 def get_audio_sample():
-    duration = 5
-    print("Let's record an audio sample of yours. Press any key to start your recording. "
-          f"\nYou will have {duration} seconds to record once you press a key")
-    input("\nPress any key to start recording")
-
-    # TODO: increase duration to 10 seconds
-    audio_sample_path = record_audio(duration=duration, file_name="sample_for_training")
+    print("Let's record an audio sample of yours.")
+    audio_sample_path = record_audio(file_name="sample_for_training")
     print(audio_sample_path)
     return audio_sample_path
 
 
 def draw_geekcon_thread():
-    word = "Loading your response..."
+    word = "Loading response..."
     for i in range(len(word) + 1):
         sys.stdout.write("\r" + "." * i + word[i:])
         sys.stdout.flush()
