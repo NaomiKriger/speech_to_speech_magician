@@ -28,8 +28,8 @@ async def main():
 
         while another_round:
             await play_round(chosen_figure=chosen_figure)
-            chosen_figure = is_another_round()
-            if chosen_figure in ["new", "yes"]:
+            chosen_figure = await is_another_round()
+            if chosen_figure in ["yes"]:
                 chosen_figure = ""
                 break
             elif chosen_figure == "no":

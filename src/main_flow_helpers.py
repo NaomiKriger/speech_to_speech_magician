@@ -37,11 +37,11 @@ def get_figure_by_typing_input(figure_options: list) -> str:
             print("Invalid input. Please enter a number.")
 
 
-def detect_figure_from_transcript(transcript: str, figures_names: list) -> str:
+def detect_chosen_option_from_transcript(transcript: str, options: list) -> str:
     best_match_score = 0
     best_match = ""
 
-    for figure_name in figures_names:
+    for figure_name in options:
         score = fuzz.partial_ratio(transcript.lower(), figure_name.lower())
         if score > best_match_score:
             best_match_score = score
@@ -56,7 +56,7 @@ def detect_figure_from_transcript(transcript: str, figures_names: list) -> str:
 def update_figure_if_needed(figure: str) -> str:
     if not figure:
         figure = "Homer Simpson"
-        message = "Ohhh too bad... seems you said something that isn't on or list...\n" \
+        message = "Ohhh too bad... seems you said something that isn't on our list...\n" \
                   "No problem. We'll choose a figure for you!\n" \
                   f"Your chosen figure is...{figure}"
         print(message)
@@ -74,7 +74,7 @@ async def get_figure_from_recording(figures_names: list) -> str:
     transcript = await get_transcript(audio_file_path=f"{file_name}.wav",
                                       text_to_draw_while_waiting="Getting your chosen figure")
     print(f"audio detected: {transcript}")
-    figure = detect_figure_from_transcript(transcript=transcript, figures_names=figures_names)
+    figure = detect_chosen_option_from_transcript(transcript=transcript, options=figures_names)
     figure = update_figure_if_needed(figure)
 
     return figure
@@ -117,21 +117,22 @@ async def play_round(chosen_figure: str):
     text_to_speech(gpt_answer, figures.get(chosen_figure))
 
 
-def is_another_round() -> str:
-    print("Do you want to play another round?")
-    text_to_speech("Do you want to play another round? Type 'yes' or 'no'")
-    choice = input("Type 'yes' or 'no': ")
-
-    while True:
-        try:
-            if choice.lower() in ["new", "yes", "no"]:
-                return choice.lower()
-            else:
-                print("No valid option was chosen. Please try again")
-                choice = input("Do you want to play another round? \n"
-                               "Type 'yes' or 'no'")
-        except Exception as e:
-            print(e)
+async def is_another_round() -> str:
+    ask_if_play_another_round = "Do you want to play another round? Say 'yes' or 'no'"
+    print(ask_if_play_another_round)
+    text_to_speech(ask_if_play_another_round)
+    is_another_round_recording_path = record_audio(file_name="is_another_round")
+    transcript = await get_transcript(audio_file_path=f"{is_another_round_recording_path}",
+                                      text_to_draw_while_waiting="Getting your choice")
+    print(f"You said: {transcript}")
+    choice = detect_chosen_option_from_transcript(transcript=transcript, options=["yes", "no"])
+    if choice:
+        return choice
+    else:
+        message = "Didn't get your answer... finishing the game"
+        print(message)
+        text_to_speech(message)
+        return "no"
 
 
 def finish():
