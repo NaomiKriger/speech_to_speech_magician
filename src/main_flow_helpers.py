@@ -51,9 +51,9 @@ async def play_round(user_choice: str):
 
 
 def is_another_round() -> str:
-    text_to_speech("Do you want to play another round? Type yes or no")
-    choice = input("\nDo you want to play another round? \n"
-                   f"Type 'yes' or 'no'.")
+    print("Do you want to play another round?")
+    text_to_speech("Do you want to play another round? Type 'yes' or 'no'")
+    choice = input("Type 'yes' or 'no': ")
 
     while True:
         try:
