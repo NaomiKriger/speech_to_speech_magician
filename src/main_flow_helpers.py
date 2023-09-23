@@ -1,3 +1,5 @@
+import random
+
 from fuzzywuzzy import fuzz
 
 from gui import main_gui
@@ -54,8 +56,9 @@ def detect_chosen_option_from_transcript(transcript: str, options: list) -> str:
 
 
 def update_figure_if_needed(figure: str) -> str:
+    figures_for_user = ["Homer Simpson", "Hagrid", "Pikachu", "SpongeBob SquarePants", "Shrek"]
     if not figure:
-        figure = "Homer Simpson"
+        figure = random.choice(figures_for_user)
         message = "Ohhh too bad... seems you said something that isn't on our list...\n" \
                   "No problem. We'll choose a figure for you!\n" \
                   f"Your chosen figure is...{figure}"
