@@ -1,4 +1,3 @@
-# from src.handle_audio import get_audio_sample
 import asyncio
 
 from src.handle_transcript import text_to_speech
@@ -11,12 +10,6 @@ async def main():
     start()
     another_round = True
     user_choice = ""
-    # TEMPORARILY REMOVING AUDIO FLOW
-    # global audio_sample_path
-    #
-    # if audio_sample_path is None:
-    #     audio_sample_path = get_audio_sample()
-
     while True:
         if not user_choice:
             user_choice = choose_figure()

@@ -55,11 +55,3 @@ def record_audio(file_name: str = "recording"):
         print("No audio recorded.")
 
     return f"{file_name}.wav"
-
-
-def get_audio_sample():
-    print("Let's record an audio sample of yours.")
-    text_to_speech("Let's record an audio sample of yours.")
-    audio_sample_path = record_audio(file_name="sample_for_training")
-    print(audio_sample_path)
-    return audio_sample_path
