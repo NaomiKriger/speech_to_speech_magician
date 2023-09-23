@@ -1,13 +1,16 @@
+from gui import main_gui
 from src.commons import get_system_instructions, figures
 from src.handle_audio import record_audio
 from src.handle_transcript import text_to_speech, get_transcript, make_openai_request
 
+title = "Speech to Speech Wizard"
 welcome_prompt = "Hello! Welcome to the speech-to-speech wizard! Good to see you here.\n" \
                  "Whenever you'll be asked to talk - press and hold an arrow key while talking."
 
 
 def start():
-    print(f"\n\n{welcome_prompt}")
+    main_gui.create_title(title)
+    print(welcome_prompt)
     text_to_speech(welcome_prompt)
 
 
