@@ -11,8 +11,8 @@ from openai import ChatCompletion
 from src.commons import get_system_instructions, Gender
 
 
-def draw_loading_response():
-    word = "Loading response..."
+def print_text_when_waiting_for_transcription(text_to_draw: str):
+    word = f"{text_to_draw}..."
     for i in range(len(word)):
         sys.stdout.write("\r" + word[:i + 1] + " " * (len(word) - i - 1))
         sys.stdout.flush()
@@ -20,7 +20,7 @@ def draw_loading_response():
     print()
 
 
-async def get_transcript(audio_file_path: str) -> str:
+async def get_transcript(audio_file_path: str, text_to_draw_while_waiting: str) -> str:
     openai.api_key = os.getenv("OPENAI_API_KEY")
     audio_file = open(audio_file_path, "rb")
     transcript = None
@@ -33,7 +33,7 @@ async def get_transcript(audio_file_path: str) -> str:
         except Exception as e:
             print(e)
 
-    draw_thread = Thread(target=draw_loading_response)
+    draw_thread = Thread(target=print_text_when_waiting_for_transcription(text_to_draw_while_waiting))
     draw_thread.start()
 
     transcription_task = asyncio.create_task(transcribe_audio())
