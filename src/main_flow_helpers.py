@@ -1,5 +1,5 @@
 from src.handle_audio import play_audio_response, record_audio, play_audio
-from src.handle_transcript import text_to_speech
+from src.handle_transcript import text_to_speech, get_transcript
 
 exit_option = "You can finish the game at any time. \n" \
               "Write 'new' to start a new game, write 'exit' to finish"
@@ -40,20 +40,15 @@ def choose_figure():
             print("Invalid input. Please enter a number.")
 
 
-def get_transcription(audio_file_path: str) -> str:
-    print(f"path for transcription is: {audio_file_path}")
-    return "this is a sample transcription"
-
-
 def get_gpt_answer(transcription: str, figure: str) -> str:
     # call get_gpt_response
     # not calling it now due to cost per call
     return "this is an answer from chat gpt"
 
 
-def play_round(user_choice: str):
+async def play_round(user_choice: str):
     user_question_path = record_audio(file_name="user_question")
-    transcription = get_transcription(audio_file_path=user_question_path)
+    transcription = await get_transcript(audio_file_path=user_question_path)
     gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)
     print(gpt_answer)
     play_audio_response(gpt_answer)

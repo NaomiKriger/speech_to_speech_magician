@@ -22,9 +22,9 @@ def draw_geekcon_thread():
     print()
 
 
-async def get_transcript_async(audio_path: str) -> str:
+async def get_transcript(audio_file_path: str) -> str:
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    audio_file = open(audio_path, "rb")
+    audio_file = open(audio_file_path, "rb")
     transcript = None
 
     async def transcribe_audio():

@@ -1,11 +1,13 @@
 # from src.handle_audio import get_audio_sample
+import asyncio
+
 from src.handle_transcript import text_to_speech
 from src.main_flow_helpers import choose_figure, start, play_round, is_another_round
 
 audio_sample_path = None
 
 
-def main():
+async def main():
     start()
     another_round = True
     user_choice = ""
@@ -31,7 +33,7 @@ def main():
             break
 
         while another_round:
-            play_round(user_choice=user_choice)
+            await play_round(user_choice=user_choice)
             user_choice = is_another_round()
             if user_choice == "new":
                 user_choice = ""
@@ -42,4 +44,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

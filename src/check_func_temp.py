@@ -1,6 +1,6 @@
 import asyncio
 
-from src.handle_transcript import get_transcript_async
+from src.handle_transcript import get_transcript
 
 
 # def check_transcript():
