@@ -20,16 +20,12 @@ def play_audio(file_path: str = "recording.wav"):
     pygame.quit()
 
 
-def play_audio_response(transcript: str):
-    play_audio("audio_response.wav")
-    return "playing response"
-
-
 def record_audio(file_name: str = "recording"):
     sampling_frequency = 44100
     recording_started = False
 
-    message = "Press and hold an arrow key to start recording, and then " \
+    message = "Talk to your chosen figure! " \
+              "\nPress and hold an arrow key to start recording, and then \n" \
               "wait for the 'Recording Started' text to be shown on the screen before you start talking"
     print(message)
     text_to_speech(message)

@@ -14,8 +14,9 @@ def start():
 
 
 def choose_figure():
-    print("\n\nChoose a figure from the list:")
-    text_to_speech("Choose a figure from the list:")
+    message = "Who do you want to talk with? Choose a figure from the list:"
+    print(f"\n\n{message}")
+    text_to_speech(message)
 
     figure_options = ["Jewish mama", "drunk fortune teller", "Master Yoda",
                       "Donald Trump", "my future self", "Steve Jobs", "Elon Musk", "Oprah Winfrey"]
