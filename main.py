@@ -35,7 +35,7 @@ async def main():
         while another_round:
             await play_round(user_choice=user_choice)
             user_choice = is_another_round()
-            if user_choice == "new":
+            if user_choice in ["new", "yes"]:
                 user_choice = ""
                 break
             elif user_choice in ["exit", "no"]:

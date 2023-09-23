@@ -1,4 +1,4 @@
-from src.commons import get_system_instructions
+from src.commons import get_system_instructions, figures
 from src.handle_audio import record_audio
 from src.handle_transcript import text_to_speech, get_transcript, make_openai_request
 
@@ -18,8 +18,7 @@ def choose_figure():
     print(f"\n\n{message}")
     text_to_speech(message)
 
-    figure_options = ["Jewish mama", "drunk fortune teller", "Master Yoda",
-                      "Donald Trump", "my future self", "Steve Jobs", "Elon Musk", "Oprah Winfrey"]
+    figure_options = list(figures.keys())
     for idx, option in enumerate(figure_options, start=1):
         print(f"{idx}. {option}")
 
@@ -50,7 +49,7 @@ async def play_round(user_choice: str):
     gpt_answer = make_openai_request(
         system_instructions=system_instructions, user_question=transcription).choices[0].message["content"]
     print(gpt_answer)
-    text_to_speech(gpt_answer)
+    text_to_speech(gpt_answer, figures.get(user_choice))
 
 
 def is_another_round() -> str:

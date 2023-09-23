@@ -2,21 +2,19 @@ import asyncio
 import os
 import sys
 import time
-from io import BytesIO
 from threading import Thread
 
 import openai
-import pygame
-from gtts import gTTS
+import pyttsx3
 from openai import ChatCompletion
 
-from src.commons import get_system_instructions
+from src.commons import get_system_instructions, Gender
 
 
 def draw_loading_response():
     word = "Loading response..."
     for i in range(len(word)):
-        sys.stdout.write("\r" + word[:i+1] + " " * (len(word) - i - 1))
+        sys.stdout.write("\r" + word[:i + 1] + " " * (len(word) - i - 1))
         sys.stdout.flush()
         time.sleep(0.2)
     print()
@@ -72,16 +70,50 @@ def make_openai_request(system_instructions: str, user_question: str) -> ChatCom
     return completion
 
 
-def text_to_speech(text: str):
-    speech = gTTS(text, lang='en', lang_check=False, slow=False)
+# def text_to_speech(text: str):
+#     speech = gTTS(text, lang='en', lang_check=False, slow=False)
+#
+#     speech_bytes = BytesIO()
+#     speech.write_to_fp(speech_bytes)
+#     speech_bytes.seek(0)
+#
+#     pygame.mixer.init()
+#     pygame.mixer.music.load(speech_bytes)
+#     pygame.mixer.music.play()
+#
+#     while pygame.mixer.music.get_busy():
+#         continue
 
-    speech_bytes = BytesIO()
-    speech.write_to_fp(speech_bytes)
-    speech_bytes.seek(0)
 
-    pygame.mixer.init()
-    pygame.mixer.music.load(speech_bytes)
-    pygame.mixer.music.play()
+def text_to_speech(text: str, gender: str = Gender.female.value):
+    # Initialize the text-to-speech engine
+    engine = pyttsx3.init()
 
-    while pygame.mixer.music.get_busy():
-        continue
+    # Set properties (optional)
+    engine.setProperty("rate", 180)  # Speed of speech (words per minute)
+    voices = engine.getProperty('voices')
+    voice_id = voices[0].id if gender == "male" else voices[1].id
+    engine.setProperty("voice", voice_id)
+
+    # Play the text as speech
+    engine.say(text)
+    engine.runAndWait()
+
+
+def list_voices():
+    # Initialize the text-to-speech engine
+    engine = pyttsx3.init()
+
+    # Get a list of available voices
+    voices = engine.getProperty('voices')
+
+    # Print the available voices and their properties
+    for idx, voice in enumerate(voices):
+        print(f"Voice {idx + 1}:")
+        print(f" - ID: {voice.id}")
+        print(f" - Name: {voice.name}")
+        print(f" - Languages: {voice.languages}")
+        print(f" - Gender: {voice.gender}")
+        print(f" - Age: {voice.age}")
+        # print(f" - Rate: {voice.rate}")
+        print()
