@@ -1,4 +1,4 @@
-from src.handle_audio import play_audio_response, record_audio
+from src.handle_audio import play_audio_response, record_audio, play_audio
 from src.handle_transcript import text_to_speech
 
 exit_option = "You can finish the game at any time. \n" \
@@ -32,6 +32,7 @@ def choose_figure():
             if 1 <= choice <= len(figure_options):
                 chosen_figure = figure_options[choice - 1]
                 print(f"You have chosen: {chosen_figure}")
+                text_to_speech(f"You have chosen: {chosen_figure}")
                 return chosen_figure
             else:
                 print("Invalid choice. Please select a valid figure.")
@@ -59,6 +60,7 @@ def play_round(user_choice: str):
 
 
 def is_another_round() -> str:
+    text_to_speech("Do you want to play another round? Type yes or no")
     choice = input("\nDo you want to play another round? \n"
                    f"Type 'yes' or 'no'. {exit_option}")
 

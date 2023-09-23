@@ -29,8 +29,8 @@ def record_audio(file_name: str = "recording"):
     sampling_frequency = 44100
     recording_started = False
 
-    message = "Press and hold any key to start recording... " \
-              "Wait for the '*** Recording Started ***' text to be shown on the screen"
+    message = "Press and hold an arrow key to start recording, and then " \
+              "wait for the 'Recording Started' text to be shown on the screen before you start talking"
     print(message)
     text_to_speech(message)
 
@@ -43,7 +43,7 @@ def record_audio(file_name: str = "recording"):
             if event and event.event_type == keyboard.KEY_DOWN:
                 if not recording_started:
                     recording_started = True
-                    print("*** Recording Started ***")
+                    print("Recording Started")
 
                 audio_chunk, overflowed = stream.read(1024)
                 audio_data.append(audio_chunk)

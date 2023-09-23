@@ -1,4 +1,4 @@
-from src.handle_audio import get_audio_sample
+# from src.handle_audio import get_audio_sample
 from src.handle_transcript import text_to_speech
 from src.main_flow_helpers import choose_figure, start, play_round, is_another_round
 
@@ -9,10 +9,11 @@ def main():
     start()
     another_round = True
     user_choice = ""
-    global audio_sample_path
-
-    if audio_sample_path is None:
-        audio_sample_path = get_audio_sample()
+    # TEMPORARILY REMOVING AUDIO FLOW
+    # global audio_sample_path
+    #
+    # if audio_sample_path is None:
+    #     audio_sample_path = get_audio_sample()
 
     while True:
         if not user_choice:
