@@ -24,10 +24,6 @@ def record_audio(file_name: str = "recording"):
     sampling_frequency = 44100
     recording_started = False
 
-    message = "Press + hold an arrow key to start talking to your chosen figure"
-    print(message)
-    text_to_speech(message)
-
     audio_data = []
 
     with sd.InputStream(samplerate=sampling_frequency, channels=2) as stream:

@@ -12,10 +12,10 @@ async def main():
     user_choice = ""
     while True:
         if not user_choice:
-            user_choice = choose_figure()
+            user_choice = await choose_figure()
 
         if user_choice == "no":
-            farewell_message = "Finishing. Was great having you here, hope to see you again soon!"
+            farewell_message = "It was great having you here, hope to see you again soon!"
             print(f"\n{farewell_message}")
             text_to_speech(farewell_message)
             break
