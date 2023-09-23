@@ -71,33 +71,12 @@ def make_openai_request(system_instructions: str, user_question: str) -> ChatCom
 
 
 def text_to_speech(text: str, gender: str = Gender.female.value):
-    # Initialize the text-to-speech engine
     engine = pyttsx3.init()
 
-    # Set properties (optional)
     engine.setProperty("rate", 180)  # Speed of speech (words per minute)
     voices = engine.getProperty('voices')
     voice_id = voices[0].id if gender == "male" else voices[1].id
     engine.setProperty("voice", voice_id)
 
-    # Play the text as speech
     engine.say(text)
     engine.runAndWait()
-
-
-def list_voices():
-    # Initialize the text-to-speech engine
-    engine = pyttsx3.init()
-
-    # Get a list of available voices
-    voices = engine.getProperty('voices')
-
-    # Print the available voices and their properties
-    for idx, voice in enumerate(voices):
-        print(f"Voice {idx + 1}:")
-        print(f" - ID: {voice.id}")
-        print(f" - Name: {voice.name}")
-        print(f" - Languages: {voice.languages}")
-        print(f" - Gender: {voice.gender}")
-        print(f" - Age: {voice.age}")
-        print()
