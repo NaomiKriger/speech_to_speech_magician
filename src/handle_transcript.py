@@ -28,7 +28,7 @@ async def get_transcript(audio_file_path: str) -> str:
     async def transcribe_audio():
         nonlocal transcript
         try:
-            response = openai.Audio.transcribe("whisper-1", audio_file)
+            response = openai.Audio.transcribe(model="whisper-1", file=audio_file, language="en")
             transcript = response.get("text")
         except Exception as e:
             print(e)
@@ -70,21 +70,6 @@ def make_openai_request(system_instructions: str, user_question: str) -> ChatCom
     return completion
 
 
-# def text_to_speech(text: str):
-#     speech = gTTS(text, lang='en', lang_check=False, slow=False)
-#
-#     speech_bytes = BytesIO()
-#     speech.write_to_fp(speech_bytes)
-#     speech_bytes.seek(0)
-#
-#     pygame.mixer.init()
-#     pygame.mixer.music.load(speech_bytes)
-#     pygame.mixer.music.play()
-#
-#     while pygame.mixer.music.get_busy():
-#         continue
-
-
 def text_to_speech(text: str, gender: str = Gender.female.value):
     # Initialize the text-to-speech engine
     engine = pyttsx3.init()
@@ -115,5 +100,4 @@ def list_voices():
         print(f" - Languages: {voice.languages}")
         print(f" - Gender: {voice.gender}")
         print(f" - Age: {voice.age}")
-        # print(f" - Rate: {voice.rate}")
         print()

@@ -24,9 +24,8 @@ def record_audio(file_name: str = "recording"):
     sampling_frequency = 44100
     recording_started = False
 
-    message = "Talk to your chosen figure! " \
-              "\nPress and hold an arrow key to start recording, and then \n" \
-              "wait for the 'Recording Started' text to be shown on the screen before you start talking"
+    message = "Press + hold an arrow key and wait for the 'Recording Started' message " \
+              "to start talking to your chosen figure"
     print(message)
     text_to_speech(message)
 

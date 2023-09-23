@@ -1,6 +1,6 @@
 from enum import Enum
 
-constant_instruction = "You provide funny answers."
+constant_instruction = "You provide funny and short answers."
 
 
 def get_system_instructions(figure: str) -> str:
