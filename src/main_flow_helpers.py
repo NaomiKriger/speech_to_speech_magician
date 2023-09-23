@@ -118,14 +118,15 @@ async def play_round(chosen_figure: str):
 
 
 async def is_another_round() -> str:
-    ask_if_play_another_round = "Do you want to play another round? Say 'yes' or 'no'"
+    ask_if_play_another_round = "Do you want to play another round? Say 'yes' or 'no'. \n" \
+                                "Say 'new figure' to choose a new figure"
     print(ask_if_play_another_round)
     text_to_speech(ask_if_play_another_round)
     is_another_round_recording_path = record_audio(file_name="is_another_round")
     transcript = await get_transcript(audio_file_path=f"{is_another_round_recording_path}",
                                       text_to_draw_while_waiting="Getting your choice")
     print(f"You said: {transcript}")
-    choice = detect_chosen_option_from_transcript(transcript=transcript, options=["yes", "no"])
+    choice = detect_chosen_option_from_transcript(transcript=transcript, options=["yes", "no", "new figure"])
     if choice:
         return choice
     else:
