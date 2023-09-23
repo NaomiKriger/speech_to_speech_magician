@@ -1,5 +1,6 @@
-from src.handle_audio import play_audio_response, record_audio, play_audio
-from src.handle_transcript import text_to_speech, get_transcript
+from src.commons import get_system_instructions
+from src.handle_audio import record_audio
+from src.handle_transcript import text_to_speech, get_transcript, make_openai_request
 
 exit_option = "You can finish the game at any time. \n" \
               "Write 'new' to start a new game, write 'exit' to finish"
@@ -16,7 +17,8 @@ def choose_figure():
     print("\n\nChoose a figure from the list:")
     text_to_speech("Choose a figure from the list:")
 
-    figure_options = ["Figure 1", "Figure 2", "Figure 3"]
+    figure_options = ["Jewish mama", "drunk fortune teller", "Master Yoda",
+                      "Donald Trump", "my future self", "Steve Jobs", "Elon Musk", "Oprah Winfrey"]
     for idx, option in enumerate(figure_options, start=1):
         print(f"{idx}. {option}")
 
@@ -40,18 +42,14 @@ def choose_figure():
             print("Invalid input. Please enter a number.")
 
 
-def get_gpt_answer(transcription: str, figure: str) -> str:
-    # call get_gpt_response
-    # not calling it now due to cost per call
-    return "this is an answer from chat gpt"
-
-
 async def play_round(user_choice: str):
     user_question_path = record_audio(file_name="user_question")
     transcription = await get_transcript(audio_file_path=user_question_path)
-    gpt_answer = get_gpt_answer(transcription=transcription, figure=user_choice)
+    system_instructions = get_system_instructions(user_choice)
+    gpt_answer = make_openai_request(
+        system_instructions=system_instructions, user_question=transcription).choices[0].message["content"]
     print(gpt_answer)
-    play_audio_response(gpt_answer)
+    text_to_speech(gpt_answer)
 
 
 def is_another_round() -> str:

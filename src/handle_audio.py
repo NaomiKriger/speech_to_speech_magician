@@ -55,7 +55,6 @@ def record_audio(file_name: str = "recording"):
     if audio_data:
         audio_data = np.concatenate(audio_data, axis=0)
         sd.wait()
-        print(f"Recording saved as {file_name}.wav.")
         write(f"{file_name}.wav", sampling_frequency, audio_data)
     else:
         print("No audio recorded.")

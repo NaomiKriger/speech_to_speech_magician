@@ -13,10 +13,10 @@ from openai import ChatCompletion
 from src.commons import get_system_instructions
 
 
-def draw_geekcon_thread():
+def draw_loading_response():
     word = "Loading response..."
-    for i in range(len(word) + 1):
-        sys.stdout.write("\r" + "." * i + word[i:])
+    for i in range(len(word)):
+        sys.stdout.write("\r" + word[:i+1] + " " * (len(word) - i - 1))
         sys.stdout.flush()
         time.sleep(0.2)
     print()
@@ -35,7 +35,7 @@ async def get_transcript(audio_file_path: str) -> str:
         except Exception as e:
             print(e)
 
-    draw_thread = Thread(target=draw_geekcon_thread)
+    draw_thread = Thread(target=draw_loading_response)
     draw_thread.start()
 
     transcription_task = asyncio.create_task(transcribe_audio())
@@ -66,7 +66,7 @@ def make_openai_request(system_instructions: str, user_question: str) -> ChatCom
             {"role": "system", "content": system_instructions},
             {"role": "user", "content": user_question}
         ],
-        max_tokens=20
+        max_tokens=50
     )
 
     return completion
