@@ -42,7 +42,6 @@ async def get_transcript(audio_file_path: str, text_to_draw_while_waiting: str) 
     if transcript is None:
         print("Transcription not available within the specified timeout.")
 
-    print(f"\n{transcript}")
     return transcript
 
 

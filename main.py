@@ -9,30 +9,30 @@ audio_sample_path = None
 async def main():
     start()
     another_round = True
-    user_choice = ""
+    chosen_figure = ""
     while True:
-        if not user_choice:
-            user_choice = await choose_figure()
+        if not chosen_figure:
+            chosen_figure = await choose_figure()
 
-        if user_choice == "no":
+        if chosen_figure == "no":
             farewell_message = "It was great having you here, hope to see you again soon!"
             print(f"\n{farewell_message}")
             text_to_speech(farewell_message)
             break
-        elif user_choice == "new":
-            user_choice = ""
+        elif chosen_figure == "new":
+            chosen_figure = ""
             continue
 
         if not another_round:
             break
 
         while another_round:
-            await play_round(user_choice=user_choice)
-            user_choice = is_another_round()
-            if user_choice in ["new", "yes"]:
-                user_choice = ""
+            await play_round(chosen_figure=chosen_figure)
+            chosen_figure = is_another_round()
+            if chosen_figure in ["new", "yes"]:
+                chosen_figure = ""
                 break
-            elif user_choice == "no":
+            elif chosen_figure == "no":
                 another_round = False
                 break
 

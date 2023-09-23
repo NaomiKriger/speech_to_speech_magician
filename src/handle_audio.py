@@ -4,8 +4,6 @@ import pygame
 import sounddevice as sd
 from scipy.io.wavfile import write
 
-from src.handle_transcript import text_to_speech
-
 
 def play_audio(file_path: str = "recording.wav"):
     pygame.init()
