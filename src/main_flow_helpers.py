@@ -2,25 +2,23 @@ from src.commons import get_system_instructions, figures
 from src.handle_audio import record_audio
 from src.handle_transcript import text_to_speech, get_transcript, make_openai_request
 
-exit_option = "You can finish the game at any time. \n" \
-              "Write 'new' to start a new game, write 'exit' to finish"
+welcome_prompt = "Hello! Welcome to the speech-to-speech wizard! Good to see you here.\n" \
+                 "Whenever you'll be asked to talk - press and hold an arrow key while talking."
 
 
 def start():
-    print("\n\n"
-          "Hello! Welcome to the speech-to-speech wizard! Good to see you here =)\n"
-          f"{exit_option}")
-    text_to_speech("Hello! Welcome to the speech-to-speech wizard! Good to see you here")
+    print(f"\n\n{welcome_prompt}")
+    text_to_speech(welcome_prompt)
 
 
 def choose_figure():
-    message = "Who do you want to talk with? Choose a figure from the list:"
+    message = "Who do you want to talk to? Say the figure's name you want."
     print(f"\n\n{message}")
     text_to_speech(message)
 
     figure_options = list(figures.keys())
-    for idx, option in enumerate(figure_options, start=1):
-        print(f"{idx}. {option}")
+    for _, option in enumerate(figure_options, start=1):
+        print(f"{option}")
 
     while True:
         choice = input("\nEnter the number of your chosen figure: ")
@@ -55,11 +53,11 @@ async def play_round(user_choice: str):
 def is_another_round() -> str:
     text_to_speech("Do you want to play another round? Type yes or no")
     choice = input("\nDo you want to play another round? \n"
-                   f"Type 'yes' or 'no'. {exit_option}")
+                   f"Type 'yes' or 'no'.")
 
     while True:
         try:
-            if choice.lower() in ["exit", "new", "yes", "no"]:
+            if choice.lower() in ["new", "yes", "no"]:
                 return choice.lower()
             else:
                 print("No valid option was chosen. Please try again")

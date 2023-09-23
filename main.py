@@ -14,9 +14,10 @@ async def main():
         if not user_choice:
             user_choice = choose_figure()
 
-        if user_choice in ["exit", "no"]:
-            print("\nFinishing. Was great having you here, hope to see you again soon!")
-            text_to_speech("Finishing. Was great having you here, hope to see you again soon!")
+        if user_choice == "no":
+            farewell_message = "Finishing. Was great having you here, hope to see you again soon!"
+            print(f"\n{farewell_message}")
+            text_to_speech(farewell_message)
             break
         elif user_choice == "new":
             user_choice = ""
@@ -31,7 +32,7 @@ async def main():
             if user_choice in ["new", "yes"]:
                 user_choice = ""
                 break
-            elif user_choice in ["exit", "no"]:
+            elif user_choice == "no":
                 another_round = False
                 break
 
