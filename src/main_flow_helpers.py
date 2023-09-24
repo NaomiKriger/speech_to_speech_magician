@@ -133,10 +133,10 @@ async def is_another_round() -> str:
     if choice:
         return choice
     else:
-        message = "Didn't get your answer... finishing the game"
+        message = "Didn't get your answer... let's play another round!"
         print(message)
         text_to_speech(message)
-        return "no"
+        return "yes"
 
 
 def finish():
