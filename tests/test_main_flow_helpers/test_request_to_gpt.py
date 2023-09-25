@@ -13,6 +13,7 @@ load_dotenv()
 # NOTE - MAKING A REAL CALL TO GPT, NEED TO PATCH THIS
 class TestGptRequest(unittest.TestCase):
 
+    @unittest.skip("making real API call")
     def test_gpt_request(self):
         res = make_openai_request(system_instructions=get_system_instructions(figure="drunk future teller"),
                                   user_question="What does Harry Potter like in Hogwarts?")
