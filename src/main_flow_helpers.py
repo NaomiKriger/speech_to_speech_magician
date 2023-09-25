@@ -18,27 +18,6 @@ def start():
     text_to_speech(welcome_prompt)
 
 
-def get_figure_by_typing_input(figure_options: list) -> str:
-    while True:
-        choice = input("\nEnter the number of your chosen figure: ")
-        try:
-            if choice.lower() == "exit":
-                return "exit"
-            elif choice.lower() == "new":
-                return "new"
-
-            choice = int(choice)
-            if 1 <= choice <= len(figure_options):
-                chosen_figure = figure_options[choice - 1]
-                print(f"You have chosen: {chosen_figure}")
-                text_to_speech(f"You have chosen: {chosen_figure}")
-                return chosen_figure
-            else:
-                print("Invalid choice. Please select a valid figure.")
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-
-
 def detect_chosen_option_from_transcript(transcript: str, options: list) -> str:
     best_match_score = 0
     best_match = ""
@@ -137,7 +116,3 @@ async def is_another_round() -> str:
         print(message)
         text_to_speech(message)
         return "yes"
-
-
-def finish():
-    print("Finishing the current session.")
