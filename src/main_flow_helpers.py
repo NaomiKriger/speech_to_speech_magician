@@ -3,7 +3,7 @@ import random
 from fuzzywuzzy import fuzz
 
 from gui import main_gui
-from src.commons import get_system_instructions, figures
+from src.commons import get_system_instructions, primary_figures, fallback_figures
 from src.handle_audio import record_audio
 from src.handle_transcript import text_to_speech, get_transcript, make_openai_request
 
@@ -34,10 +34,13 @@ def detect_chosen_option_from_transcript(transcript: str, options: list) -> str:
         return ""
 
 
+def choose_random_figure(figures_for_user: list) -> str:
+    return random.choice(figures_for_user)
+
+
 def update_figure_if_needed(figure: str) -> str:
-    figures_for_user = ["Homer Simpson", "Hagrid", "Pikachu", "SpongeBob SquarePants", "Shrek"]
     if not figure:
-        figure = random.choice(figures_for_user)
+        figure = choose_random_figure(fallback_figures)
         message = "Ohhh too bad... seems you said something that isn't on our list...\n" \
                   "No problem. We'll choose a figure for you!\n" \
                   f"Your chosen figure is...{figure}"
@@ -67,7 +70,7 @@ async def choose_figure():
     print(f"\n\n{message}")
     text_to_speech(message)
 
-    figure_options = list(figures.keys())
+    figure_options = list(primary_figures.keys())
     for _, option in enumerate(figure_options, start=1):
         print(f"{option}")
 
@@ -96,7 +99,7 @@ async def play_round(chosen_figure: str):
     gpt_answer = make_openai_request(
         system_instructions=system_instructions, user_question=transcription).choices[0].message["content"]
     print(f"answer from {chosen_figure}: {gpt_answer}")
-    text_to_speech(gpt_answer, figures.get(chosen_figure))
+    text_to_speech(gpt_answer, primary_figures.get(chosen_figure))
 
 
 async def is_another_round() -> str:

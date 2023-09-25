@@ -12,10 +12,12 @@ class Gender(Enum):
     male = "male"
 
 
-figures = {"Jewish mama": Gender.female.value,
-           "drunk fortune teller": Gender.female.value,
-           "Master Yoda": Gender.male.value,
-           "Donald Trump": Gender.male.value,
-           "Steve Jobs": Gender.male.value,
-           "Elon Musk": Gender.male.value,
-           "Oprah Winfrey": Gender.female.value}
+primary_figures = {"Jewish mama": Gender.female.value,
+                   "drunk fortune teller": Gender.female.value,
+                   "Master Yoda": Gender.male.value,
+                   "Donald Trump": Gender.male.value,
+                   "Steve Jobs": Gender.male.value,
+                   "Elon Musk": Gender.male.value,
+                   "Oprah Winfrey": Gender.female.value}
+
+fallback_figures = ["Homer Simpson", "Hagrid", "Pikachu", "SpongeBob SquarePants", "Shrek"]
