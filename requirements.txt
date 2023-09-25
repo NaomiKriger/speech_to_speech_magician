@@ -8,3 +8,4 @@ pyttsx3~=2.90
 fuzzywuzzy~=0.18.0
 scipy~=1.10.1
 pyfiglet~=0.8.post1
+pytest~=7.4.2

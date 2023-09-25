@@ -60,7 +60,7 @@ async def get_figure_from_recording(figures_names: list) -> str:
                                       text_to_draw_while_waiting="Getting your chosen figure")
     print(f"audio detected: {transcript}")
     figure = detect_chosen_option_from_transcript(transcript=transcript, options=figures_names)
-    figure = update_figure_if_needed(figure)
+    figure = update_figure_if_needed(figure=figure)
 
     return figure
 
