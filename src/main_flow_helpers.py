@@ -23,7 +23,7 @@ def detect_chosen_option_from_transcript(transcript: str, options: list) -> str:
     best_match = ""
 
     for figure_name in options:
-        score = fuzz.partial_ratio(transcript.lower(), figure_name.lower())
+        score = fuzz.token_set_ratio(transcript.lower(), figure_name.lower())
         if score > best_match_score:
             best_match_score = score
             best_match = figure_name
