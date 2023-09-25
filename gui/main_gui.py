@@ -6,6 +6,6 @@ def create_title(title):
     font_color_reset = "\033[0m"
 
     f = Figlet(font='slant', width=140)
-    renderd_text = (f.renderText(title))
+    rendered_text = (f.renderText(title))
 
-    print(font_color_red, renderd_text, font_color_reset)
+    print(font_color_red, rendered_text, font_color_reset)
