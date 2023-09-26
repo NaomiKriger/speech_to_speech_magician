@@ -5,7 +5,7 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 
 
-def play_audio(file_path: str = "recording.wav"):
+def play_audio(file_path: str = "recording.wav") -> None:
     pygame.init()
     pygame.mixer.init()
     pygame.mixer.music.load(file_path)
@@ -18,7 +18,7 @@ def play_audio(file_path: str = "recording.wav"):
     pygame.quit()
 
 
-def record_audio(file_name: str = "recording"):
+def record_audio(file_name: str = "recording") -> str:
     sampling_frequency = 44100
     recording_started = False
 

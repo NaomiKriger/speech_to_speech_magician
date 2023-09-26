@@ -40,7 +40,7 @@ def choose_random_figure(figures_for_user: list) -> str:
 
 def update_figure_if_needed(figure: str) -> str:
     if not figure:
-        figure = choose_random_figure(fallback_figures)
+        figure = choose_random_figure(list(fallback_figures.keys()))
         message = "Ohhh too bad... seems you said something that isn't on our list...\n" \
                   "No problem. We'll choose a figure for you!\n" \
                   f"Your chosen figure is...{figure}"
@@ -99,7 +99,9 @@ async def play_round(chosen_figure: str) -> None:
     gpt_answer = make_openai_request(
         system_instructions=system_instructions, user_question=transcription).choices[0].message["content"]
     print(f"answer from {chosen_figure}: {gpt_answer}")
-    text_to_speech(gpt_answer, primary_figures.get(chosen_figure))
+    gender = primary_figures.get(chosen_figure) if chosen_figure in primary_figures \
+        else fallback_figures.get(chosen_figure)
+    text_to_speech(text=gpt_answer, gender=gender)
 
 
 async def is_another_round() -> str:

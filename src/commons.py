@@ -20,4 +20,7 @@ primary_figures = {"Jewish mama": Gender.female.value,
                    "Elon Musk": Gender.male.value,
                    "Oprah Winfrey": Gender.female.value}
 
-fallback_figures = ["Homer Simpson", "Hagrid", "Pikachu", "SpongeBob SquarePants", "Shrek"]
+fallback_figures = {"Homer Simpson": Gender.male.value, "Hagrid": Gender.male.value,
+                    "Hermione Granger": Gender.female.value, "Phoebe Buffay": Gender.female.value,
+                    "Pikachu": Gender.male.value, "Alice in Wonderland": Gender.female.value,
+                    "SpongeBob SquarePants": Gender.male.value, "Shrek": Gender.male.value}

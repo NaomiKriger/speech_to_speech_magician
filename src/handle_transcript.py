@@ -11,7 +11,7 @@ from openai import ChatCompletion
 from src.commons import get_system_instructions, Gender
 
 
-def print_text_when_waiting_for_transcription(text_to_draw: str):
+def print_text_when_waiting_for_transcription(text_to_draw: str) -> None:
     word = f"{text_to_draw}..."
     for i in range(len(word)):
         sys.stdout.write("\r" + word[:i + 1] + " " * (len(word) - i - 1))
@@ -25,7 +25,7 @@ async def get_transcript(audio_file_path: str, text_to_draw_while_waiting: str) 
     audio_file = open(audio_file_path, "rb")
     transcript = None
 
-    async def transcribe_audio():
+    async def transcribe_audio() -> None:
         nonlocal transcript
         try:
             response = openai.Audio.transcribe(model="whisper-1", file=audio_file, language="en")
@@ -69,7 +69,7 @@ def make_openai_request(system_instructions: str, user_question: str) -> ChatCom
     return completion
 
 
-def text_to_speech(text: str, gender: str = Gender.female.value):
+def text_to_speech(text: str, gender: str = Gender.female.value) -> None:
     engine = pyttsx3.init()
 
     engine.setProperty("rate", 180)  # Speed of speech (words per minute)
