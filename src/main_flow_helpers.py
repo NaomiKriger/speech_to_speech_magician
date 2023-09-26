@@ -12,7 +12,7 @@ welcome_prompt = "Hello! Welcome to the speech-to-speech wizard! Good to see you
                  "Whenever you'll be asked to talk - press and hold an arrow key while talking."
 
 
-def start():
+def start() -> None:
     main_gui.create_title(title)
     print(welcome_prompt)
     text_to_speech(welcome_prompt)
@@ -65,7 +65,7 @@ async def get_figure_from_recording(figures_names: list) -> str:
     return figure
 
 
-async def choose_figure():
+async def choose_figure() -> str:
     message = "Who do you want to talk to?"
     print(f"\n\n{message}")
     text_to_speech(message)
@@ -90,7 +90,7 @@ def ask_a_question(file_name: str, chosen_figure: str) -> str:
     return user_question_path
 
 
-async def play_round(chosen_figure: str):
+async def play_round(chosen_figure: str) -> None:
     user_question_path = ask_a_question(file_name="user_question", chosen_figure=chosen_figure)
     transcription = await get_transcript(audio_file_path=user_question_path,
                                          text_to_draw_while_waiting="Loading response")

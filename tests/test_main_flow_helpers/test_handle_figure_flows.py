@@ -29,13 +29,10 @@ async def test_get_figure_from_recording():
     figure_per_transcript = "fortune teller"
     actual_figure_to_use = "drunk fortune teller"
     file_name = "chosen_figure"
-    with patch("src.main_flow_helpers.record_audio") as mock_record_audio, patch(
-            "src.main_flow_helpers.get_transcript"
-    ) as mock_get_transcript, patch(
-        "src.main_flow_helpers.detect_chosen_option_from_transcript"
-    ) as mock_detect_chosen_option, patch(
-        "src.main_flow_helpers.update_figure_if_needed"
-    ) as mock_update_figure:
+    with patch("src.main_flow_helpers.record_audio") as mock_record_audio, \
+            patch("src.main_flow_helpers.get_transcript") as mock_get_transcript, \
+            patch("src.main_flow_helpers.detect_chosen_option_from_transcript") as mock_detect_chosen_option, \
+            patch("src.main_flow_helpers.update_figure_if_needed") as mock_update_figure:
         mock_record_audio.return_value = f"{file_name}.wav"
         mock_get_transcript.return_value = figure_per_transcript
         mock_detect_chosen_option.return_value = actual_figure_to_use
