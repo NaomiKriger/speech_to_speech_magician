@@ -4,7 +4,7 @@ from unittest.mock import patch
 import pytest
 
 from src.commons import primary_figures
-from src.main_flow_helpers import ask_a_question, title, welcome_prompt, start, play_round
+from src.main_flow_helpers import ask_a_question, title, welcome_prompt, start, play_round, is_another_round
 
 
 class TestStart(unittest.TestCase):
@@ -70,3 +70,32 @@ async def test_play_round(mock_text_to_speech, mock_make_openai_request, mock_ge
                                                 text_to_draw_while_waiting="Loading response")
     mock_ask_a_question.assert_called_once_with(file_name="user_question", chosen_figure=chosen_figure_play_round)
     mock_text_to_speech.assert_called_once_with(gpt_answer, primary_figures.get(chosen_figure_play_round))
+
+
+@pytest.mark.asyncio
+@patch("src.main_flow_helpers.print")
+@patch("src.main_flow_helpers.text_to_speech")
+@patch("src.main_flow_helpers.record_audio")
+@patch("src.main_flow_helpers.get_transcript")
+@patch("src.main_flow_helpers.detect_chosen_option_from_transcript")
+async def test_is_another_round(mock_detect_chosen_option_from_transcript, mock_get_transcript, mock_record_audio,
+                                mock_text_to_speech, mock_print):
+    ask_if_play_another_round = "Do you want to play another round? Say 'yes' or 'no'. \n" \
+                                "Say 'new figure' to choose a new figure"
+
+    mock_record_audio.return_value = "is_another_round.wav"
+    mock_get_transcript.return_value = "some transcript"
+    mock_detect_chosen_option_from_transcript.return_value = "no"
+    result = await is_another_round()
+
+    mock_print.assert_any_call(ask_if_play_another_round)
+    mock_print.assert_any_call(f"You said: {mock_get_transcript.return_value}")
+    mock_text_to_speech.assert_called_once_with(ask_if_play_another_round)
+
+    assert result == mock_detect_chosen_option_from_transcript.return_value
+
+    # CALL is_another_round() AGAIN, NOW WITH A DIFFERENT VALUE FOR detect_chosen_option_from_transcript()
+    mock_detect_chosen_option_from_transcript.return_value = ""
+    result = await is_another_round()
+
+    assert result == "yes"
