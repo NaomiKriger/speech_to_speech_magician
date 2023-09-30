@@ -14,7 +14,7 @@ speech-to-text and text-to-speech technologies.
 
 
 # Installation
-1. Clone the repo `git clone https://github.com/NaomiKriger/talk_to_ai_speech_to_text.git`
+1. Clone the repo `git clone https://github.com/NaomiKriger/speech_to_speech_magician.git`
 2. `pip install -r requirements.txt`
 3. Set up your environment variables:
    * Get your openai API key (check out [openai](https://openai.com) website to learn more)
