@@ -7,8 +7,8 @@ from src.commons import get_system_instructions, primary_figures, fallback_figur
 from src.handle_audio import record_audio
 from src.handle_transcript import text_to_speech, get_transcript, make_openai_request
 
-title = "Speech to Speech Wizard"
-welcome_prompt = "Hello! Welcome to the speech-to-speech wizard! Good to see you here.\n" \
+title = "Speech to Speech Magician"
+welcome_prompt = "Hello! Welcome to the speech-to-speech magician! Good to see you here.\n" \
                  "Whenever you'll be asked to talk - press and hold an arrow key while talking."
 
 
