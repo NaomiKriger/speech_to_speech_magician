@@ -28,6 +28,9 @@ Once you finish talking (and un-press the key) - your recording will be transcri
 and the transcription will be sent to ChatGPT for a response. 
 The response will be read out loud via a text-to-speech library, and you'll hear it.
 
+# Demo
+TODO: add here a video exemplifying how the game works
+
 # Tech Stack
 * Python
 * openai - ChatGpt, Whisper
@@ -35,12 +38,10 @@ The response will be read out loud via a text-to-speech library, and you'll hear
 
 # Contributing
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
-
 1. Fork the repository
-2. Create a new branch: `git checkout -b your-branch-name`
-3. Make your changes and commit them: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin your-branch-name`
-5. Submit a pull request
+2. Make your changes in a new branch, commit and push
+3. Make sure all the tests are passing
+4. Submit a pull request
 
 # License
 This project is licensed under the MIT License - see the LICENSE file for details
