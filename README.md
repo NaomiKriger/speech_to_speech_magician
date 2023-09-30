@@ -7,8 +7,8 @@ and your voice is being transcribed using Whisper model by openai.
 <img src=src/pics/magician.jpg width="400">
 
 # High Level Description
-This is a Python project that enables users to interact with an AI using 
-speech-to-text and text-to-speech technologies.
+This is a Python project that enables users to interact with AI
+using speech-to-text and text-to-speech technologies.
 
 
 # Installation
