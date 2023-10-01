@@ -28,7 +28,7 @@ def detect_chosen_option_from_transcript(transcript: str, options: list) -> str:
             best_match_score = score
             best_match = option
 
-    if best_match_score >= 80:
+    if best_match_score >= 70:
         return best_match
     else:
         return ""
