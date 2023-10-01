@@ -30,13 +30,17 @@ Once you finish talking (and un-press the key) - your recording will be transcri
 and the transcription will be sent to ChatGPT for a response. 
 The response will be read out loud via a text-to-speech library, and you'll hear it.
 
-# Demo
-TODO: add here a video exemplifying how the game works
+# Demo Video
+Click the image below to see a video demo of our app
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/-Y6dZFMWAbg/0.jpg)](https://www.youtube.com/watch?v=-Y6dZFMWAbg)
+
 
 # Tech Stack
 * Python
-* openai - ChatGpt, Whisper
-* text-to-speech - pyttsx3
+* openai: 
+  * ChatGPT API
+  * Whisper - speech-to-text
+* pyttsx3 library for text-to-speech
 
 # Contributing
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
