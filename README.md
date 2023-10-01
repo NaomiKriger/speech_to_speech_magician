@@ -37,7 +37,7 @@ Click the image below to see a video demo of our app
 
 # Tech Stack
 * Python
-* openai: 
+* openai
   * ChatGPT API
   * Whisper - speech-to-text
 * pyttsx3 library for text-to-speech
