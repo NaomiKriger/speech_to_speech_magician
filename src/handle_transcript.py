@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import os
 import sys
 import time
@@ -8,7 +9,7 @@ import openai
 import pyttsx3
 from openai import ChatCompletion
 
-from src.commons import get_system_instructions, Gender
+from src.commons import get_system_instructions, Gender, WORDS_PER_MINUTE_RATE
 
 
 def print_text_while_waiting_for_transcription(text_to_draw: str) -> None:
@@ -51,29 +52,34 @@ def get_gpt_response(transcript: str, chosen_figure: str) -> str:
         return make_openai_request(
             system_instructions=system_instructions, user_question=transcript).choices[0].message["content"]
     except Exception as e:
+        logging.error(f"could not get ChatGPT response. error: {str(e)}")
         return e.args[0]
 
 
 def make_openai_request(system_instructions: str, user_question: str) -> ChatCompletion:
     openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": system_instructions},
-            {"role": "user", "content": user_question}
-        ],
-        max_tokens=50
-    )
+    try:
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_instructions},
+                {"role": "user", "content": user_question}
+            ],
+            max_tokens=50
+        )
+        return completion
+    except Exception as e:
+        logging.error(f"failed calling openai.ChatCompletion.create. error: {str(e)}")
+        raise e
 
-    return completion
 
-
-def text_to_speech(text: str, gender: str = Gender.female.value) -> None:
+# TODO: decide whether to wrap in try-except, and whether to do so in all usages of this function
+def text_to_speech(text: str, gender: str = Gender.FEMALE.value) -> None:
     engine = pyttsx3.init()
 
-    engine.setProperty("rate", 180)  # Speed of speech (words per minute)
-    voices = engine.getProperty('voices')
+    engine.setProperty("rate", WORDS_PER_MINUTE_RATE)
+    voices = engine.getProperty("voices")
     voice_id = voices[0].id if gender == "male" else voices[1].id
     engine.setProperty("voice", voice_id)
 

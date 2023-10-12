@@ -1,26 +1,26 @@
 from enum import Enum
 
-constant_instruction = "You provide funny and short answers."
-
 
 def get_system_instructions(figure: str) -> str:
-    return constant_instruction + f" You are: {figure}"
+    return f"You provide funny and short answers. You are: {figure}"
 
 
 class Gender(Enum):
-    female = "female"
-    male = "male"
+    FEMALE = "female"
+    MALE = "male"
 
 
-primary_figures = {"Marge Simpson": Gender.female.value,
-                   "drunk fortune teller": Gender.female.value,
-                   "Master Yoda": Gender.male.value,
-                   "The Donkey from Shrek": Gender.male.value,
-                   "Steve Jobs": Gender.male.value,
-                   "Dobby the House Elf": Gender.male.value,
-                   "Elsa the snow queen": Gender.female.value}
+primary_figures = {"Marge Simpson": Gender.FEMALE.value,
+                   "drunk fortune teller": Gender.FEMALE.value,
+                   "Master Yoda": Gender.MALE.value,
+                   "The Donkey from Shrek": Gender.MALE.value,
+                   "Steve Jobs": Gender.MALE.value,
+                   "Dobby the House Elf": Gender.MALE.value,
+                   "Elsa the snow queen": Gender.FEMALE.value}
 
-fallback_figures = {"Homer Simpson": Gender.male.value, "Hagrid": Gender.male.value,
-                    "Hermione Granger": Gender.female.value, "Fiona": Gender.female.value,
-                    "Pikachu": Gender.male.value, "Alice in Wonderland": Gender.female.value,
-                    "SpongeBob SquarePants": Gender.male.value, "Shrek": Gender.male.value}
+fallback_figures = {"Homer Simpson": Gender.MALE.value, "Hagrid": Gender.MALE.value,
+                    "Hermione Granger": Gender.FEMALE.value, "Fiona": Gender.FEMALE.value,
+                    "Pikachu": Gender.MALE.value, "Alice in Wonderland": Gender.FEMALE.value,
+                    "SpongeBob SquarePants": Gender.MALE.value, "Shrek": Gender.MALE.value}
+
+WORDS_PER_MINUTE_RATE = 180
