@@ -1,11 +1,12 @@
 import random
+from typing import List
 
 from fuzzywuzzy import fuzz
 
 from gui import main_gui
-from src.commons import get_system_instructions, primary_figures, fallback_figures
+from src.commons import primary_figures, fallback_figures
 from src.handle_audio import record_audio
-from src.handle_transcript import text_to_speech, get_transcript, make_openai_request
+from src.handle_transcript import text_to_speech, get_transcript, get_gpt_response
 
 title = "Speech to Speech Magician"
 welcome_prompt = "Hello! Welcome to the speech-to-speech magician! Good to see you here.\n" \
@@ -18,7 +19,8 @@ def start() -> None:
     text_to_speech(welcome_prompt)
 
 
-def detect_chosen_option_from_transcript(transcript: str, options: list) -> str:
+def detect_chosen_option_from_transcript(
+        transcript: str, options: List[str]) -> str:
     best_match_score = 0
     best_match = ""
 
@@ -92,12 +94,16 @@ def ask_a_question(file_name: str, chosen_figure: str) -> str:
 
 async def play_round(chosen_figure: str) -> None:
     user_question_path = ask_a_question(file_name="user_question", chosen_figure=chosen_figure)
+    # TODO: wrap here in try<->except
     transcription = await get_transcript(audio_file_path=user_question_path,
                                          text_to_draw_while_waiting="Loading response")
     print(f"You said: {transcription}")
-    system_instructions = get_system_instructions(chosen_figure)
-    gpt_answer = make_openai_request(
-        system_instructions=system_instructions, user_question=transcription).choices[0].message["content"]
+    # TODO: decide how to handle an error here. maybe try one more time and then quit the game
+    # TODO: the "quit" logic is in the outer function. here we provide a "sorry" message
+    gpt_answer = get_gpt_response(transcript=transcription, chosen_figure=chosen_figure)
+    # system_instructions = get_system_instructions(chosen_figure)
+    # gpt_answer = make_openai_request(
+    #     system_instructions=system_instructions, user_question=transcription).choices[0].message["content"]
     print(f"answer from {chosen_figure}: {gpt_answer}")
     gender = primary_figures.get(chosen_figure) if chosen_figure in primary_figures \
         else fallback_figures.get(chosen_figure)
