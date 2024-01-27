@@ -66,7 +66,8 @@ async def test_play_round(mock_text_to_speech, mock_get_gpt_response, mock_get_s
     mock_get_transcript.assert_called_once_with(audio_file_path=user_chosen_path,
                                                 text_to_draw_while_waiting="Loading response")
     mock_ask_a_question.assert_called_once_with(file_name="user_question", chosen_figure=chosen_figure_play_round)
-    mock_text_to_speech.assert_called_once_with(text=gpt_answer, gender=primary_figures.get(chosen_figure_play_round))
+    mock_text_to_speech.assert_called_once_with(text=gpt_answer,
+                                                gender=primary_figures.get(chosen_figure_play_round).get("gender"))
 
 
 @pytest.mark.asyncio

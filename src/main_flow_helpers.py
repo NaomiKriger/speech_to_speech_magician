@@ -1,10 +1,11 @@
+import logging
 import random
 from typing import List
 
 from fuzzywuzzy import fuzz
 
 from gui import main_gui
-from src.commons import primary_figures, fallback_figures
+from src.commons import primary_figures, fallback_figures, Gender
 from src.handle_audio import record_audio
 from src.handle_transcript import text_to_speech, get_transcript, get_gpt_response
 
@@ -94,17 +95,23 @@ def ask_a_question(file_name: str, chosen_figure: str) -> str:
 
 async def play_round(chosen_figure: str) -> None:
     user_question_path = ask_a_question(file_name="user_question", chosen_figure=chosen_figure)
-    # TODO: wrap here in try<->except
-    transcription = await get_transcript(audio_file_path=user_question_path,
-                                         text_to_draw_while_waiting="Loading response")
-    print(f"You said: {transcription}")
-    # TODO: decide how to handle an error here. maybe try one more time and then quit the game
-    # TODO: the "quit" logic is in the outer function. here we provide a "sorry" message
-    gpt_answer = get_gpt_response(transcript=transcription, chosen_figure=chosen_figure)
-    print(f"answer from {chosen_figure}: {gpt_answer}")
-    gender = primary_figures.get(chosen_figure) if chosen_figure in primary_figures \
-        else fallback_figures.get(chosen_figure)
-    text_to_speech(text=gpt_answer, gender=gender)
+
+    try:
+        transcription = await get_transcript(audio_file_path=user_question_path,
+                                             text_to_draw_while_waiting="Loading response")
+        print(f"You said: {transcription}")
+        gpt_answer = get_gpt_response(transcript=transcription, chosen_figure=chosen_figure)
+        print(f"answer from {chosen_figure}: {gpt_answer}")
+        gender = primary_figures.get(chosen_figure).get("gender") if chosen_figure in primary_figures \
+            else fallback_figures.get(chosen_figure).get("gender")
+        text_to_speech(text=gpt_answer, gender=gender)
+
+    except Exception as e:
+        logging.error(f"failed getting transcription. error: {e}")
+        message = "Sorry, an unexpected error occurred. Finishing the game, please start again."
+        print(message)
+        text_to_speech(text=message, gender=Gender.FEMALE.value)
+        raise e
 
 
 async def is_another_round() -> str:

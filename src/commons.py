@@ -10,17 +10,20 @@ class Gender(Enum):
     MALE = "male"
 
 
-primary_figures = {"Marge Simpson": Gender.FEMALE.value,
-                   "drunk fortune teller": Gender.FEMALE.value,
-                   "Master Yoda": Gender.MALE.value,
-                   "The Donkey from Shrek": Gender.MALE.value,
-                   "Steve Jobs": Gender.MALE.value,
-                   "Dobby the House Elf": Gender.MALE.value,
-                   "Elsa the snow queen": Gender.FEMALE.value}
+gender = "gender"
 
-fallback_figures = {"Homer Simpson": Gender.MALE.value, "Hagrid": Gender.MALE.value,
-                    "Hermione Granger": Gender.FEMALE.value, "Fiona": Gender.FEMALE.value,
-                    "Pikachu": Gender.MALE.value, "Alice in Wonderland": Gender.FEMALE.value,
-                    "SpongeBob SquarePants": Gender.MALE.value, "Shrek": Gender.MALE.value}
+
+primary_figures = {"Marge Simpson": {gender: Gender.FEMALE.value},
+                   "drunk fortune teller": {gender: Gender.FEMALE.value},
+                   "Master Yoda": {gender: Gender.MALE.value},
+                   "The Donkey from Shrek": {gender: Gender.MALE.value},
+                   "Steve Jobs": {gender: Gender.MALE.value},
+                   "Dobby the House Elf": {gender: Gender.MALE.value},
+                   "Elsa the snow queen": {gender: Gender.FEMALE.value}}
+
+fallback_figures = {"Homer Simpson": {gender: Gender.MALE.value}, "Hagrid": {gender: Gender.MALE.value},
+                    "Hermione Granger": {gender: Gender.FEMALE.value}, "Fiona": {gender: Gender.FEMALE.value},
+                    "Pikachu": {gender: Gender.MALE.value}, "Alice in Wonderland": {gender: Gender.FEMALE.value},
+                    "SpongeBob SquarePants": {gender: Gender.MALE.value}, "Shrek": Gender.MALE.value}
 
 WORDS_PER_MINUTE_RATE = 180
