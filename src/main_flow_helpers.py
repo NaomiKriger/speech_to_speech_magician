@@ -101,9 +101,6 @@ async def play_round(chosen_figure: str) -> None:
     # TODO: decide how to handle an error here. maybe try one more time and then quit the game
     # TODO: the "quit" logic is in the outer function. here we provide a "sorry" message
     gpt_answer = get_gpt_response(transcript=transcription, chosen_figure=chosen_figure)
-    # system_instructions = get_system_instructions(chosen_figure)
-    # gpt_answer = make_openai_request(
-    #     system_instructions=system_instructions, user_question=transcription).choices[0].message["content"]
     print(f"answer from {chosen_figure}: {gpt_answer}")
     gender = primary_figures.get(chosen_figure) if chosen_figure in primary_figures \
         else fallback_figures.get(chosen_figure)

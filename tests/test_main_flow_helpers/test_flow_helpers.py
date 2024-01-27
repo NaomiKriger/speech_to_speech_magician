@@ -46,10 +46,10 @@ chosen_figure_play_round = list(primary_figures.keys())[0]
 @patch("src.main_flow_helpers.ask_a_question")
 @patch("src.main_flow_helpers.get_transcript")
 @patch("src.main_flow_helpers.print")
-@patch("src.main_flow_helpers.get_system_instructions")
-@patch("src.main_flow_helpers.make_openai_request")
+@patch("src.commons.get_system_instructions")
+@patch("src.main_flow_helpers.get_gpt_response")
 @patch("src.main_flow_helpers.text_to_speech")
-async def test_play_round(mock_text_to_speech, mock_make_openai_request, mock_get_system_instructions, mock_print,
+async def test_play_round(mock_text_to_speech, mock_get_gpt_response, mock_get_system_instructions, mock_print,
                           mock_get_transcript, mock_ask_a_question):
     user_chosen_path = "user_question.wav"
     mock_ask_a_question.return_value = user_chosen_path
@@ -59,10 +59,7 @@ async def test_play_round(mock_text_to_speech, mock_make_openai_request, mock_ge
     await play_round(chosen_figure_play_round)
 
     system_instructions = mock_get_system_instructions(chosen_figure_play_round)
-    gpt_answer = \
-        mock_make_openai_request(system_instructions=system_instructions, user_question=transcription).choices[
-            0].message[
-            "content"]
+    gpt_answer = mock_get_gpt_response(system_instructions=system_instructions, user_question=transcription)
 
     mock_print.assert_any_call(f"You said: {transcription}")
     mock_print.assert_any_call(f"answer from {chosen_figure_play_round}: {gpt_answer}")

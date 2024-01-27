@@ -74,7 +74,6 @@ def make_openai_request(system_instructions: str, user_question: str) -> ChatCom
         raise e
 
 
-# TODO: decide whether to wrap in try-except, and whether to do so in all usages of this function
 def text_to_speech(text: str, gender: str = Gender.FEMALE.value) -> None:
     engine = pyttsx3.init()
 
