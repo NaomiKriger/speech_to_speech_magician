@@ -93,6 +93,14 @@ def ask_a_question(file_name: str, chosen_figure: str) -> str:
     return user_question_path
 
 
+def handle_error_in_play_round(error, failure_explanation: str):
+    logging.error(f"{failure_explanation}. error: {error}")
+    message_for_user = "Sorry, an unexpected error occurred. Finishing the game, please start again."
+    print(message_for_user)
+    text_to_speech(text=message_for_user, gender=Gender.FEMALE.value)
+    raise error
+
+
 async def play_round(chosen_figure: str) -> None:
     user_question_path = ask_a_question(file_name="user_question", chosen_figure=chosen_figure)
 
@@ -100,17 +108,26 @@ async def play_round(chosen_figure: str) -> None:
         transcription = await get_transcript(audio_file_path=user_question_path,
                                              text_to_draw_while_waiting="Loading response")
         print(f"You said: {transcription}")
-        gpt_answer = get_gpt_response(transcript=transcription, chosen_figure=chosen_figure)
-        print(f"answer from {chosen_figure}: {gpt_answer}")
-        gender = primary_figures.get(chosen_figure).get("gender") if chosen_figure in primary_figures \
-            else fallback_figures.get(chosen_figure).get("gender")
-        text_to_speech(text=gpt_answer, gender=gender)
 
     except Exception as e:
-        logging.error(f"failed getting transcription. error: {e}")
-        message = "Sorry, an unexpected error occurred. Finishing the game, please start again."
-        print(message)
-        text_to_speech(text=message, gender=Gender.FEMALE.value)
+        handle_error_in_play_round(error=e, failure_explanation="failed to get transcript")
+        raise e
+
+    try:
+        gpt_answer = get_gpt_response(transcript=transcription, chosen_figure=chosen_figure)
+        print(f"answer from {chosen_figure}: {gpt_answer}")
+
+    except Exception as e:
+        handle_error_in_play_round(error=e, failure_explanation="failed to get chatGPT response")
+        raise e
+
+    gender = primary_figures.get(chosen_figure).get("gender") if chosen_figure in primary_figures \
+        else fallback_figures.get(chosen_figure).get("gender")
+
+    try:
+        text_to_speech(text=gpt_answer, gender=gender)
+    except Exception as e:
+        handle_error_in_play_round(error=e, failure_explanation="failed using text to speech")
         raise e
 
 

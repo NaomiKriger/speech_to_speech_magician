@@ -35,13 +35,14 @@ class TestGetGptResponse(unittest.TestCase):
         transcript = "What's the weather like?"
         chosen_figure = "Homer Simpson"
 
-        result = get_gpt_response(transcript, chosen_figure)
+        with self.assertRaises(Exception) as context:
+            get_gpt_response(transcript, chosen_figure)
+        self.assertEqual(context.exception.args[0], "Request failed")
 
         mock_get_system_instructions.assert_called_once_with(chosen_figure)
         mock_make_openai_request.assert_called_once_with(
             system_instructions="System instructions", user_question=transcript
         )
-        self.assertEqual(result, "Request failed")
 
 
 class TestMakeOpenAIRequest(unittest.TestCase):

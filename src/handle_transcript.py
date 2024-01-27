@@ -53,7 +53,7 @@ def get_gpt_response(transcript: str, chosen_figure: str) -> str:
             system_instructions=system_instructions, user_question=transcript).choices[0].message["content"]
     except Exception as e:
         logging.error(f"could not get ChatGPT response. error: {str(e)}")
-        return e.args[0]
+        raise e
 
 
 def make_openai_request(system_instructions: str, user_question: str) -> ChatCompletion:
