@@ -37,12 +37,5 @@ The response will be read out loud via a text-to-speech library, and you'll hear
   * Whisper - speech-to-text
 * pyttsx3 library for text-to-speech
 
-# Contributing
-Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
-1. Fork the repository
-2. Make your changes in a new branch, commit and push
-3. Make sure all the tests are passing
-4. Submit a pull request
-
 # License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
