@@ -17,22 +17,23 @@ using speech-to-text and text-to-speech technologies.
 1. Clone the repo `git clone https://github.com/NaomiKriger/speech_to_speech_magician.git`
 2. `pip install -r requirements.txt`
 3. Set up your environment variables:
-   * Get your openai API key (check out [openai](https://openai.com) website to learn more)
+   * Get your Openai API key (check out [Openai](https://openai.com) website to learn more)
    * Create a `.env` file in the project directory.
    * Add your OpenAI API key to the .env file: `OPENAI_API_KEY=your_api_key_here`
 4. Run the server `python main.py`
 
 # How to Play the Game
 Once the server is running, you will hear the app "talking", 
-offering you to choose the figure you want to talk to, and to start talking to your figure.
-Each time you want to talk out loud - press and hold an arrow key on the keyboard while talking.
-Once you finish talking (and un-press the key) - your recording will be transcribed by Whisper, 
-and the transcription will be sent to ChatGPT for a response. 
-The response will be read out loud via a text-to-speech library, and you'll hear it.
+offering you the option to choose the figure you want to interact with 
+and to begin chatting with your chosen figure. 
+To speak aloud, press and hold an arrow key on the keyboard while talking. 
+Once you finish speaking (and release the key), your recording will be transcribed 
+by `Whisper`, and the transcription will be sent to `ChatGPT` for a response. 
+The response will be read aloud via a text-to-speech library, and you'll hear it.
 
 # Tech Stack
 * Python
-* openai
+* Openai
   * ChatGPT API
   * Whisper - speech-to-text
 * pyttsx3 library for text-to-speech
