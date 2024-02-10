@@ -3,8 +3,6 @@ import asyncio
 from src.handle_transcript import text_to_speech
 from src.main_flow_helpers import choose_figure, start, play_round, is_another_round
 
-audio_sample_path = None
-
 
 def farewell() -> None:
     farewell_message = "It was great having you here, hope to see you again soon!"
