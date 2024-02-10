@@ -4,6 +4,7 @@ import os
 import sys
 import time
 from threading import Thread
+from typing import Optional
 
 import openai
 import pyttsx3
@@ -21,7 +22,7 @@ def print_text_while_waiting_for_transcription(text_to_draw: str) -> None:
     print()
 
 
-async def get_transcript(audio_file_path: str, text_to_draw_while_waiting: str) -> str:
+async def get_transcript(audio_file_path: str, text_to_draw_while_waiting: str) -> Optional[str]:
     openai.api_key = os.environ.get("OPENAI_API_KEY")
     audio_file = open(audio_file_path, "rb")
     transcript = None
