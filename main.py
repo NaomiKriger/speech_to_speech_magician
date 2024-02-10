@@ -12,14 +12,14 @@ def farewell() -> None:
     text_to_speech(farewell_message)
 
 
-async def get_user_choices(figure: str) -> dict:
-    another_round_user_choice = await is_another_round()
-    if another_round_user_choice == "new figure":
-        return {"figure": "", "another_round_user_choice": True}
-    elif another_round_user_choice == "no":
-        return {"figure": "", "another_round_user_choice": False}
-    elif another_round_user_choice == "yes":
-        return {"figure": figure, "another_round_user_choice": True}
+async def get_round_settings(figure: str) -> dict:
+    new_round_choice = await is_another_round()
+    if new_round_choice == "new figure":
+        return {"figure": "", "another_round": True}
+    elif new_round_choice == "no":
+        return {"figure": "", "another_round": False}
+    elif new_round_choice == "yes":
+        return {"figure": figure, "another_round": True}
 
 
 async def main():
@@ -33,8 +33,8 @@ async def main():
 
         while another_round:
             await play_round(chosen_figure=figure)
-            user_choices = await get_user_choices(figure)
-            figure, another_round = user_choices.get("figure"), user_choices.get("another_round_user_choice")
+            user_choices = await get_round_settings(figure)
+            figure, another_round = user_choices.get("figure"), user_choices.get("another_round")
             if not figure:
                 break
 
